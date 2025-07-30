@@ -1,0 +1,24 @@
+{
+	"name": "@repo/rspack-config",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./config": "./src/rspack.config.js",
+		"./utils": "./src/utils.js"
+	},
+	"devDependencies": {
+		"@module-federation/enhanced": "0.15.0",
+		"@rsdoctor/rspack-plugin": "1.1.3",
+		"@rspack/cli": "1.3.11",
+		"@rspack/core": "1.3.11",
+		"@rspack/plugin-react-refresh": "1.4.3",
+		"@svgr/webpack": "^8.1.0",
+		"dotenv-webpack": "^8.1.0",
+		"webpack-dev-server": "^5.2.1",
+		"webpack-merge": "^6.0.1"
+	},
+	"dependencies": {
+		"http-proxy-middleware": "^3.0.5"
+	}
+}
