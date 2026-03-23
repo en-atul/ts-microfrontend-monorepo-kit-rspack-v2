@@ -2,13 +2,12 @@ import pc from 'picocolors';
 import { createRequire } from 'module';
 import { getConfig } from '@repo/rspack-config/config';
 import { parseArgs } from '@repo/rspack-config/utils';
+import hostConfig from './federation.config.js';
 
 const moduleUrl = import.meta.url;
 const require = createRequire(moduleUrl);
 
 const { dependencies: deps } = require('./package.json');
-
-const port = 3000;
 
 const args = parseArgs(process.argv.slice(2));
 const mode = args.mode || 'development';
@@ -44,73 +43,31 @@ const getEnvironmentConfig = (env) => {
 	switch (env) {
 		case 'development':
 			return {
-				publicPath: `http://localhost:${port}/`,
-				remotes: {
-					productListingApp: 'http://localhost:3001/remoteEntry.js',
-					productDetailsApp: 'http://localhost:3002/remoteEntry.js',
-					cartApp: 'http://localhost:3003/remoteEntry.js',
-					checkoutApp: 'http://localhost:3004/remoteEntry.js',
-					userProfileApp: 'http://localhost:3005/remoteEntry.js',
-				},
-				allowedOrigins: [
-					'http://localhost:3001/',
-					'http://localhost:3002/',
-					'http://localhost:3003/',
-					'http://localhost:3004/',
-					'http://localhost:3005/',
-				],
+				publicPath: hostConfig.development.publicPath,
+				remotes: hostConfig.development.remotes,
+				allowedOrigins: hostConfig.development.allowedOrigins,
 			};
 
 		case 'staging':
 			return {
-				publicPath: `http://staging.example.com/`,
-				remotes: {
-					productListingApp: 'http://staging.example.com/product-listing/remoteEntry.js',
-					productDetailsApp: 'http://staging.example.com/product-details/remoteEntry.js',
-					cartApp: 'http://staging.example.com/cart/remoteEntry.js',
-					checkoutApp: 'http://staging.example.com/checkout/remoteEntry.js',
-					userProfileApp: 'http://staging.example.com/user-profile/remoteEntry.js',
-				},
-				allowedOrigins: ['http://staging.example.com/'],
+				publicPath: hostConfig.staging.publicPath,
+				remotes: hostConfig.staging.remotes,
+				allowedOrigins: hostConfig.staging.allowedOrigins,
 			};
 
 		case 'production':
 			return {
-				publicPath: `http://localhost:${port}/`,
-				remotes: {
-					productListingApp: 'http://localhost:3001/remoteEntry.js',
-					productDetailsApp: 'http://localhost:3002/remoteEntry.js',
-					cartApp: 'http://localhost:3003/remoteEntry.js',
-					checkoutApp: 'http://localhost:3004/remoteEntry.js',
-					userProfileApp: 'http://localhost:3005/remoteEntry.js',
-				},
-				allowedOrigins: [
-					'http://localhost:3001/',
-					'http://localhost:3002/',
-					'http://localhost:3003/',
-					'http://localhost:3004/',
-					'http://localhost:3005/',
-				],
+				publicPath: hostConfig.production.publicPath,
+				remotes: hostConfig.production.remotes,
+				allowedOrigins: hostConfig.production.allowedOrigins,
 			};
 
 		default:
 			// Fallback to development as default environment
 			return {
-				publicPath: `http://localhost:${port}/`,
-				remotes: {
-					productListingApp: 'http://localhost:3001/remoteEntry.js',
-					productDetailsApp: 'http://localhost:3002/remoteEntry.js',
-					cartApp: 'http://localhost:3003/remoteEntry.js',
-					checkoutApp: 'http://localhost:3004/remoteEntry.js',
-					userProfileApp: 'http://localhost:3005/remoteEntry.js',
-				},
-				allowedOrigins: [
-					'http://localhost:3001/',
-					'http://localhost:3002/',
-					'http://localhost:3003/',
-					'http://localhost:3004/',
-					'http://localhost:3005/',
-				],
+				publicPath: hostConfig.default.publicPath,
+				remotes: hostConfig.default.remotes,
+				allowedOrigins: hostConfig.default.allowedOrigins,
 			};
 	}
 };
@@ -135,7 +92,7 @@ const config = getConfig({
 // Add devServer configuration for development mode
 if (mode === 'development') {
 	config.devServer = {
-		port: port,
+		port: 3000,
 		host: 'localhost',
 		hot: true,
 		open: true,
@@ -155,7 +112,7 @@ if (mode === 'development') {
 
 				res.status(403).send('Forbidden: Referer not allowed');
 			});
-			
+
 			return middlewares;
 		},
 	};
