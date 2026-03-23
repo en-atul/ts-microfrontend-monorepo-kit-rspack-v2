@@ -1,0 +1,103 @@
+name: Manual Vercel Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Select app to deploy"
+        required: true
+        type: choice
+        options:
+          - all
+          - host
+          - product-listing
+          - product-details
+          - cart
+          - checkout
+          - user-profile
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate required secrets for all target
+        if: ${{ github.event.inputs.target == 'all' }}
+        env:
+          VERCEL_DEPLOY_HOOK_HOST: ${{ secrets.VERCEL_DEPLOY_HOOK_HOST }}
+          VERCEL_DEPLOY_HOOK_PRODUCT_LISTING: ${{ secrets.VERCEL_DEPLOY_HOOK_PRODUCT_LISTING }}
+          VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS: ${{ secrets.VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS }}
+          VERCEL_DEPLOY_HOOK_CART: ${{ secrets.VERCEL_DEPLOY_HOOK_CART }}
+          VERCEL_DEPLOY_HOOK_CHECKOUT: ${{ secrets.VERCEL_DEPLOY_HOOK_CHECKOUT }}
+          VERCEL_DEPLOY_HOOK_USER_PROFILE: ${{ secrets.VERCEL_DEPLOY_HOOK_USER_PROFILE }}
+        run: |
+          for secret_name in \
+            VERCEL_DEPLOY_HOOK_PRODUCT_LISTING \
+            VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS \
+            VERCEL_DEPLOY_HOOK_CART \
+            VERCEL_DEPLOY_HOOK_CHECKOUT \
+            VERCEL_DEPLOY_HOOK_USER_PROFILE \
+            VERCEL_DEPLOY_HOOK_HOST; do
+            value="${!secret_name}"
+            if [ -z "$value" ]; then
+              echo "Missing required secret: $secret_name"
+              exit 1
+            fi
+          done
+
+      - name: Deploy all apps (remotes -> host)
+        if: ${{ github.event.inputs.target == 'all' }}
+        env:
+          VERCEL_DEPLOY_HOOK_HOST: ${{ secrets.VERCEL_DEPLOY_HOOK_HOST }}
+          VERCEL_DEPLOY_HOOK_PRODUCT_LISTING: ${{ secrets.VERCEL_DEPLOY_HOOK_PRODUCT_LISTING }}
+          VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS: ${{ secrets.VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS }}
+          VERCEL_DEPLOY_HOOK_CART: ${{ secrets.VERCEL_DEPLOY_HOOK_CART }}
+          VERCEL_DEPLOY_HOOK_CHECKOUT: ${{ secrets.VERCEL_DEPLOY_HOOK_CHECKOUT }}
+          VERCEL_DEPLOY_HOOK_USER_PROFILE: ${{ secrets.VERCEL_DEPLOY_HOOK_USER_PROFILE }}
+        run: |
+          set -e
+          for hook in \
+            "$VERCEL_DEPLOY_HOOK_PRODUCT_LISTING" \
+            "$VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS" \
+            "$VERCEL_DEPLOY_HOOK_CART" \
+            "$VERCEL_DEPLOY_HOOK_CHECKOUT" \
+            "$VERCEL_DEPLOY_HOOK_USER_PROFILE"; do
+            echo "::add-mask::$hook"
+            curl -fsS -X POST "$hook"
+          done
+          echo "::add-mask::$VERCEL_DEPLOY_HOOK_HOST"
+          curl -fsS -X POST "$VERCEL_DEPLOY_HOOK_HOST"
+
+      - name: Resolve deploy hook URL
+        if: ${{ github.event.inputs.target != 'all' }}
+        id: hook
+        env:
+          TARGET: ${{ github.event.inputs.target }}
+          VERCEL_DEPLOY_HOOK_HOST: ${{ secrets.VERCEL_DEPLOY_HOOK_HOST }}
+          VERCEL_DEPLOY_HOOK_PRODUCT_LISTING: ${{ secrets.VERCEL_DEPLOY_HOOK_PRODUCT_LISTING }}
+          VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS: ${{ secrets.VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS }}
+          VERCEL_DEPLOY_HOOK_CART: ${{ secrets.VERCEL_DEPLOY_HOOK_CART }}
+          VERCEL_DEPLOY_HOOK_CHECKOUT: ${{ secrets.VERCEL_DEPLOY_HOOK_CHECKOUT }}
+          VERCEL_DEPLOY_HOOK_USER_PROFILE: ${{ secrets.VERCEL_DEPLOY_HOOK_USER_PROFILE }}
+        run: |
+          case "$TARGET" in
+            host) HOOK="$VERCEL_DEPLOY_HOOK_HOST" ;;
+            product-listing) HOOK="$VERCEL_DEPLOY_HOOK_PRODUCT_LISTING" ;;
+            product-details) HOOK="$VERCEL_DEPLOY_HOOK_PRODUCT_DETAILS" ;;
+            cart) HOOK="$VERCEL_DEPLOY_HOOK_CART" ;;
+            checkout) HOOK="$VERCEL_DEPLOY_HOOK_CHECKOUT" ;;
+            user-profile) HOOK="$VERCEL_DEPLOY_HOOK_USER_PROFILE" ;;
+            *) echo "Unknown target: $TARGET"; exit 1 ;;
+          esac
+
+          if [ -z "$HOOK" ]; then
+            echo "Missing deploy hook secret for target: $TARGET"
+            exit 1
+          fi
+
+          echo "::add-mask::$HOOK"
+          echo "url=$HOOK" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Vercel deploy hook
+        if: ${{ github.event.inputs.target != 'all' }}
+        run: |
+          curl -fsS -X POST "${{ steps.hook.outputs.url }}"
