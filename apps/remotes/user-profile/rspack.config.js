@@ -7,6 +7,7 @@ const moduleUrl = import.meta.url;
 const require = createRequire(moduleUrl);
 const { dependencies: deps } = require('./package.json');
 const port = 3005;
+const deployedHostOrigin = process.env.HOST_APP_ORIGIN || 'https://ecom-mfe-host.vercel.app';
 const args = parseArgs(process.argv.slice(2));
 const mode = args.mode || 'development';
 
@@ -32,9 +33,9 @@ const baseFederationConfig = {
 
 const federationConfigs = {
 	...baseFederationConfig,
-	publicPath: `http://localhost:${port}/`,
+	publicPath: mode === 'development' ? `http://localhost:${port}/` : 'auto',
 	remotes: {},
-	allowedOrigins: ['http://localhost:3000/'],
+	allowedOrigins: mode === 'development' ? ['http://localhost:3000/'] : [`${deployedHostOrigin}/`],
 };
 
 console.log(pc.gray(`[${mode === 'development' ? 'Dev' : 'Build'}]: ${pc.magenta(mode)}`));

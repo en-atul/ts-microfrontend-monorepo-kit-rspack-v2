@@ -9,6 +9,7 @@ const require = createRequire(moduleUrl);
 const { dependencies: deps } = require('./package.json');
 
 const port = 3001;
+const deployedHostOrigin = process.env.HOST_APP_ORIGIN || 'https://ecom-mfe-host.vercel.app';
 
 const args = parseArgs(process.argv.slice(2));
 const mode = args.mode || 'development';
@@ -47,16 +48,16 @@ const getEnvironmentConfig = (env) => {
 
 		case 'staging':
 			return {
-				publicPath: `http://staging.example.com/`,
+				publicPath: 'auto',
 				remotes: {},
-				allowedOrigins: [`http://marketting.staging.example.com/`],
+				allowedOrigins: [`${deployedHostOrigin}/`],
 			};
 
 		case 'production':
 			return {
-				publicPath: `http://localhost:${port}/`,
+				publicPath: 'auto',
 				remotes: {},
-				allowedOrigins: ['http://localhost:3000/'],
+				allowedOrigins: [`${deployedHostOrigin}/`],
 			};
 
 		default:
