@@ -27,10 +27,10 @@ const baseFederationConfig = {
 		'@repo/ecommerce-core': {
 			singleton: true,
 			eager: true,
-			requiredVersion: deps['@repo/ecommerce-core'],
+			requiredVersion: false,
 		},
-		'@repo/ui': { singleton: true, eager: true, requiredVersion: deps['@repo/ui'] },
-		'@repo/styles': { singleton: true, eager: true, requiredVersion: deps['@repo/styles'] },
+		'@repo/ui': { singleton: true, eager: true, requiredVersion: false },
+		'@repo/styles': { singleton: true, eager: true, requiredVersion: false },
 		zustand: { singleton: true, eager: true, requiredVersion: deps.zustand },
 	},
 };
@@ -41,9 +41,7 @@ const getEnvironmentConfig = (env) => {
 		case 'development':
 			return {
 				publicPath: `http://localhost:${port}/`,
-				remotes: {
-					hostApp: 'http://localhost:3000/remoteEntry.js',
-				},
+				remotes: {},
 				allowedOrigins: ['http://localhost:3000/'],
 			};
 

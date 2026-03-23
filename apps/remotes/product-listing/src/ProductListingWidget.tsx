@@ -33,7 +33,7 @@ const ProductListingWidget: React.FC = () => {
 						<div className="ecom-row">
 							<a
 								className="ecom-link"
-								href={`#/products/${product.id}`}
+								href={`/products/${product.id}`}
 								onClick={(event) => {
 									event.preventDefault();
 									emitEvent('navigation:go', { route: `/products/${product.id}` });

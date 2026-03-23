@@ -25,12 +25,17 @@ const baseFederationConfig = {
 		'@repo/ecommerce-core': {
 			singleton: true,
 			eager: true,
-			requiredVersion: deps['@repo/ecommerce-core'],
+			requiredVersion: false,
 		},
-		'@repo/ui': { singleton: true, eager: true, requiredVersion: deps['@repo/ui'] },
-		'@repo/styles': { singleton: true, eager: true, requiredVersion: deps['@repo/styles'] },
-		'@repo/utils': { singleton: true, eager: true, requiredVersion: deps['@repo/utils'] },
+		'@repo/ui': { singleton: true, eager: true, requiredVersion: false },
+		'@repo/styles': { singleton: true, eager: true, requiredVersion: false },
+		'@repo/utils': { singleton: true, eager: true, requiredVersion: false },
 		zustand: { singleton: true, eager: true, requiredVersion: deps.zustand },
+		'react-router-dom': {
+			singleton: true,
+			eager: true,
+			requiredVersion: deps['react-router-dom'],
+		},
 	},
 };
 

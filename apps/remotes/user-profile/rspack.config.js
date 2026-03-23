@@ -23,9 +23,9 @@ const baseFederationConfig = {
 		'@repo/ecommerce-core': {
 			singleton: true,
 			eager: true,
-			requiredVersion: deps['@repo/ecommerce-core'],
+			requiredVersion: false,
 		},
-		'@repo/ui': { singleton: true, eager: true, requiredVersion: deps['@repo/ui'] },
+		'@repo/ui': { singleton: true, eager: true, requiredVersion: false },
 		zustand: { singleton: true, eager: true, requiredVersion: deps.zustand },
 	},
 };
