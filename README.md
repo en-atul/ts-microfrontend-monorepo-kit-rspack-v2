@@ -1,10 +1,10 @@
-# 🚀 TypeScript Microfrontend Monorepo Kit - RSpack
+# 🚀 TypeScript E-Commerce Microfrontends (Rspack + Module Federation)
 
 <!-- ![Banner](screenshots/banner.png) -->
 
-A production-ready monorepo boilerplate for building scalable microfrontend applications, powered by
-modern web technologies and best practices. Built entirely from scratch without using any cli tools,
-providing complete control over the build configuration and development workflow.
+A production-ready monorepo for building scalable e-commerce microfrontends with independent remotes,
+shared state, and a router-driven host shell. Built from scratch for full control over Module Federation,
+runtime sharing, and deployment setup.
 
 ## Table of Contents
 
@@ -15,38 +15,33 @@ providing complete control over the build configuration and development workflow
 - [🚀 Getting Started](#-getting-started)
 - [🛠 Development Tools](#-development-tools)
 - [🏗 Architecture](#-architecture)
+- [🧠 Data Management](#-data-management)
 - [🔒 Security](#-security)
 - [📦 Deployment](#-deployment)
 - [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
 
 ## 🎯 Overview
 
-This monorepo provides a complete foundation for building scalable microfrontend applications. It
-solves several key challenges in modern web development:
+This monorepo provides a complete foundation for an enterprise-style microfrontend architecture:
 
-- 🏢 **Microfrontend Architecture**: Implement independent, deployable frontend applications that
-  work together seamlessly
-- 🔄 **Code Sharing**: Share components and logic between applications efficiently using Rspack
-  Module Federation
-- 📝 **Type Safety**: Full TypeScript support across all applications and packages
-- ⚡️ **Development Workflow**: Streamlined development experience with hot reloading and custom CLI
-  tools
-- 🛡️ **Security**: Built-in protection for remote module access using Rspack's setupMiddlewares
-- 📈 **Scalability**: Monorepo structure that scales with your team and application needs
-- 🎛️ **Full Configuration Control**: Custom Rspack configuration built from ground up, offering
-  maximum flexibility
+- 🏢 **Independent MFEs**: Host + multiple domain remotes (product listing, details, cart, checkout,
+  user profile)
+- 🔄 **Shared Runtime**: Module Federation with singleton shared dependencies
+- 🧠 **Shared State**: Cross-MFE cart/auth state via Zustand + persisted localStorage
+- 📡 **Event Contracts**: Typed event bus for decoupled app-to-app communication
+- 🧭 **Proper Routing**: `react-router-dom` route-based host shell (not manual hash routing)
+- 🚀 **Deployability**: Vercel-ready project-per-app deployment templates
 
 ## ✨ Key Features
 
 ### 🎨 Core Features
 
-- ⚡️ Rspack Module Federation for component sharing
-- 🔒 Secure Rspack dev server with setupMiddlewares for remote module access protection
+- ⚡️ Rspack Module Federation for remote composition
+- 🧠 Shared `@repo/ecommerce-core` package (products, store, events, types)
+- 🎨 Shared `@repo/styles` package for consistent UI system
 - 🔄 Hot Module Replacement (HMR) support
 - 📦 Optimized production builds
-- 🎨 CSS/SCSS Modules support
-- 🧪 Testing setup with Jest
+- 🛡️ Dev-mode origin checks for remote entry access
 
 ### 🛠️ Custom Build Configuration
 
@@ -74,12 +69,12 @@ solves several key challenges in modern web development:
 
 ## ⚙️ Technology Stack
 
-- 🔧 **Core**: React 18, TypeScript, Rspack
+- 🔧 **Core**: React 19, TypeScript, Rspack
 - 🎨 **Styling**: CSS Modules, SCSS
 - 📦 **Monorepo**: pnpm Workspaces, Lerna
-- ✨ **Quality**: ESLint, Prettier, Jest
+- ✨ **Quality**: ESLint, Prettier
 - 🛠 **Development**: Custom CLI, Rspack Dev Server with HMR
-- 🏗 **Build**: Rspack optimizations
+- 🏗 **Build**: Rspack optimizations + Module Federation
 
 ### 🎛️ Rspack Configuration Highlights
 
@@ -134,12 +129,19 @@ module.exports = {
 ```
 ├── apps/                # Microfrontend applications
 │   ├── host/           # Host application
-│   └── remotes/        # Remote application
+│   └── remotes/        # Remote applications
+│       ├── product-listing/
+│       ├── product-details/
+│       ├── cart/
+│       ├── checkout/
+│       └── user-profile/
 ├── packages/           # Shared packages
 │   ├── dev-cli/        # Development workflow tools
+│   ├── ecommerce-core/ # Shared products, store, event bus, types
+│   ├── styles/         # Shared styling system
 │   ├── ui/             # Shared UI components
 │   ├── utils/          # Common utilities
-│   └── configs/        # Shared configurations
+│   └── rspack-config/  # Shared Rspack configuration package
 ├── scripts/            # Build and utility scripts
 └── package.json        # Root package file
 ```
@@ -158,7 +160,7 @@ module.exports = {
 
 ### 📋 Prerequisites
 
-- Node.js >= 18
+- Node.js >= 22
 - pnpm >= 9.0.0
 
 ### ⚡️ Installation
@@ -178,7 +180,11 @@ pnpm dev
 
 - `pnpm dev`: Start all applications in development mode
 - `pnpm start:host`: Start host application
-- `pnpm start:remote`: Start remote application
+- `pnpm start:product-listing`
+- `pnpm start:product-details`
+- `pnpm start:cart`
+- `pnpm start:checkout`
+- `pnpm start:user-profile`
 - `pnpm build`: Build all applications
 - `pnpm lint`: Run linting
 - `pnpm format`: Format code
@@ -218,12 +224,12 @@ dev-cli serve
 
 1. **Host Application**: Main application shell
 
-   - 🧭 Manages routing
+   - 🧭 Owns route orchestration with `react-router-dom`
    - 🔐 Handles authentication
    - 🎮 Orchestrates remote modules
 
 2. **Remote Applications**: Independent features
-   - 📦 Expose components via Module Federation
+   - 📦 Expose widgets via Module Federation
    - 🚀 Can be deployed independently
    - 💾 Maintain their own state and routing
 
@@ -233,6 +239,18 @@ dev-cli serve
 - 🔄 Shared dependencies management
 - ⚡️ Runtime integration of components
 - 📈 Version control of shared modules
+
+## 🧠 Data Management
+
+The project uses a hybrid pattern:
+
+1. **Event-driven communication**
+   - typed events in `@repo/ecommerce-core` (e.g. `navigation:go`, `cart:updated`)
+2. **Shared Zustand store**
+   - global cart + auth state in `@repo/ecommerce-core/src/store.ts`
+   - localStorage persistence for learning/demo auth flow
+3. **URL/router state**
+   - route-driven screen composition in host (`/products`, `/products/:id`, `/cart`, etc.)
 
 ## 🔒 Security
 
@@ -252,6 +270,37 @@ dev-cli serve
 
 ## 📦 Deployment
 
+### ✅ Recommended Model
+
+Deploy each app as its own Vercel project:
+
+- `apps/host`
+- `apps/remotes/product-listing`
+- `apps/remotes/product-details`
+- `apps/remotes/cart`
+- `apps/remotes/checkout`
+- `apps/remotes/user-profile`
+
+Each app already contains a `vercel.json` template.
+
+### 🔧 Required Host Environment Variables
+
+Set in the **host** Vercel project:
+
+- `PRODUCT_LISTING_REMOTE_URL`
+- `PRODUCT_DETAILS_REMOTE_URL`
+- `CART_REMOTE_URL`
+- `CHECKOUT_REMOTE_URL`
+- `USER_PROFILE_REMOTE_URL`
+
+Each value should be the full deployed `remoteEntry.js` URL.
+
+### 🔧 Required Remote Environment Variables
+
+Set in **each remote** project:
+
+- `HOST_APP_ORIGIN` (example: `https://ecom-mfe-host.vercel.app`)
+
 ### 🚀 Build Process
 
 ```bash
@@ -262,21 +311,19 @@ pnpm build
 NODE_ENV=staging pnpm build
 ```
 
-### 📤 Output
+### 📤 Output & Cache Notes
 
 - 📦 Optimized bundles
 - 🗺️ Source maps
 - 🎨 Asset optimization
 - ⚡️ Cache management
+- 🔁 Recommended deploy order: remotes first, host last
+- 🧹 If runtime/chunk mismatch occurs after deploy, hard refresh (browser cache issue)
 
 ## 🤝 Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process
-for submitting pull requests.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE.md](license.md) file for details.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and the process for
+submitting pull requests.
 
 ---
 
