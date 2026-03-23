@@ -10,6 +10,8 @@ export const getRootPath = (importingFileUrl) => {
 export const getPackagePaths = (rootPath) => ({
   ui: path.join(rootPath, 'packages/ui/src'),
   utils: path.join(rootPath, 'packages/utils/src'),
+  ecommerceCore: path.join(rootPath, 'packages/ecommerce-core/src'),
+  styles: path.join(rootPath, 'packages/styles/src'),
 });
 
 export const getEnvPaths = (rootPath) => {

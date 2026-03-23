@@ -1,0 +1,20 @@
+{
+	"name": "@repo/ecommerce-core",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./*": "./src/*.ts"
+	},
+	"dependencies": {
+		"zustand": "^5.0.8"
+	},
+	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
+		"@repo/typescript-config": "workspace:*",
+		"@types/node": "^22.14.0",
+		"eslint": "^9.25.0",
+		"typescript": "^5.8.3"
+	}
+}

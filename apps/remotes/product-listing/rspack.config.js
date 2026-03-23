@@ -15,15 +15,23 @@ const mode = args.mode || 'development';
 
 // Base configuration
 const baseFederationConfig = {
-	name: 'remoteApp',
+	name: 'productListingApp',
 	filename: 'remoteEntry.js',
 	exposes: {
-		'./Counter': 'Counter.tsx',
+		'./ProductListingWidget': './ProductListingWidget.tsx',
 	},
 	shared: {
 		...deps,
 		react: { singleton: true, eager: true, requiredVersion: deps.react },
 		'react-dom': { singleton: true, eager: true, requiredVersion: deps['react-dom'] },
+		'@repo/ecommerce-core': {
+			singleton: true,
+			eager: true,
+			requiredVersion: false,
+		},
+		'@repo/ui': { singleton: true, eager: true, requiredVersion: false },
+		'@repo/styles': { singleton: true, eager: true, requiredVersion: false },
+		zustand: { singleton: true, eager: true, requiredVersion: deps.zustand },
 	},
 };
 
@@ -33,9 +41,7 @@ const getEnvironmentConfig = (env) => {
 		case 'development':
 			return {
 				publicPath: `http://localhost:${port}/`,
-				remotes: {
-					hostApp: 'http://localhost:3000/remoteEntry.js',
-				},
+				remotes: {},
 				allowedOrigins: ['http://localhost:3000/'],
 			};
 

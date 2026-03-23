@@ -25,9 +25,8 @@ const command = process.argv[2] || 'dev';
 
 // Resolve package directories
 function resolvePackageDirs(glob) {
-	const [baseDir, wildcard] = glob.split('/');
-	if (wildcard !== '*') return [];
-
+	if (!glob.endsWith('/*')) return [];
+	const baseDir = glob.slice(0, -2);
 	const fullBase = path.join(process.cwd(), baseDir);
 	if (!fs.existsSync(fullBase)) return [];
 

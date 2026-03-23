@@ -7,11 +7,39 @@
 				"build"
 			]
 		},
-		"@repo/remote-app": {
+		"@repo/product-listing-app": {
 			"scripts": [
 				"dev",
 				"lint",
-				"check-types"
+				"build"
+			]
+		},
+		"@repo/product-details-app": {
+			"scripts": [
+				"dev",
+				"lint",
+				"build"
+			]
+		},
+		"@repo/cart-app": {
+			"scripts": [
+				"dev",
+				"lint",
+				"build"
+			]
+		},
+		"@repo/checkout-app": {
+			"scripts": [
+				"dev",
+				"lint",
+				"build"
+			]
+		},
+		"@repo/user-profile-app": {
+			"scripts": [
+				"dev",
+				"lint",
+				"build"
 			]
 		}
 	}

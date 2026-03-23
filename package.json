@@ -5,12 +5,16 @@
 	"description": "A modern monorepo boilerplate for building scalable micro-frontend applications from scratch — powered by Webpack 5 Module Federation, pnpm Workspaces, and Lerna.",
 	"scripts": {
 		"start:host": "pnpm --filter @repo/host-app dev",
-		"start:remote": "pnpm --filter @repo/remote-app dev",
+		"start:product-listing": "pnpm --filter @repo/product-listing-app dev",
+		"start:product-details": "pnpm --filter @repo/product-details-app dev",
+		"start:cart": "pnpm --filter @repo/cart-app dev",
+		"start:checkout": "pnpm --filter @repo/checkout-app dev",
+		"start:user-profile": "pnpm --filter @repo/user-profile-app dev",
 		"dev": "scripts/workspace-runner.js dev",
 		"build": "pnpm gulp",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"postinstall": "find scripts -type f -exec grep -Il '^#!/usr/bin/env node' {} \\; | xargs chmod +x",
-		"lint": "pnpm --filter @repo/remote-app lint && pnpm --filter @repo/host-app lint"
+		"lint": "pnpm --filter @repo/host-app lint && pnpm --filter @repo/product-listing-app lint && pnpm --filter @repo/product-details-app lint && pnpm --filter @repo/cart-app lint && pnpm --filter @repo/checkout-app lint && pnpm --filter @repo/user-profile-app lint"
 	},
 	"keywords": [
 		"monorepo",

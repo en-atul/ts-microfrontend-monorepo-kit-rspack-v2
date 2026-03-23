@@ -10,10 +10,27 @@ const appsDir = path.resolve('./apps');
 const cliDir = path.resolve('./packages/dev-cli');
 
 function getAppDirs() {
-  return fs.readdirSync(appsDir).filter((dir) => {
+  const topLevelDirs = fs.readdirSync(appsDir).filter((dir) => {
     const fullPath = path.join(appsDir, dir);
     return fs.statSync(fullPath).isDirectory();
   });
+
+  const appDirs = [];
+  topLevelDirs.forEach((dir) => {
+    const fullPath = path.join(appsDir, dir);
+    if (fs.existsSync(path.join(fullPath, 'package.json'))) {
+      appDirs.push(dir);
+      return;
+    }
+
+    const nestedDirs = fs.readdirSync(fullPath).filter((nested) => {
+      const nestedPath = path.join(fullPath, nested);
+      return fs.statSync(nestedPath).isDirectory() && fs.existsSync(path.join(nestedPath, 'package.json'));
+    });
+    nestedDirs.forEach((nested) => appDirs.push(path.join(dir, nested)));
+  });
+
+  return appDirs;
 }
 
 function buildApp(appName) {
