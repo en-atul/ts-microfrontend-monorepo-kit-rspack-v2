@@ -1,0 +1,23 @@
+{
+	"name": "@repo/test-config",
+	"version": "0.0.0",
+	"private": true,
+	"type": "commonjs",
+	"scripts": {
+		"test": "jest",
+		"test:rstest": "rstest"
+	},
+	"exports": {
+		"./jest": "./jest/base.cjs",
+		"./jest-setup": "./jest/setup.cjs",
+		"./rstest": "./rstest/base.cjs"
+	},
+	"devDependencies": {
+		"@rstest/core": "^0.9.4",
+		"@testing-library/jest-dom": "^6.6.3",
+		"@types/jest": "^29.5.14",
+		"jest": "29.7.0",
+		"jest-environment-jsdom": "29.7.0",
+		"ts-jest": "^29.3.2"
+	}
+}

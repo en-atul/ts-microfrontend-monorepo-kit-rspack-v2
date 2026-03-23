@@ -8,6 +8,8 @@
 		"build": "NODE_ENV=production rspack --config rspack.config.js --mode=production",
 		"clean-build": "gulp",
 		"lint": "eslint \"src/**/*.{ts,tsx}\"",
+		"test": "pnpm --filter @repo/test-config exec jest -c \"$PWD/jest.config.cjs\"",
+		"test:watch": "pnpm --filter @repo/test-config exec jest -c \"$PWD/jest.config.cjs\" --watch",
 		"dev": "NODE_ENV=development rspack serve --config rspack.config.js --mode=development",
 		"serve": "rspack serve --config rspack.config.js --mode=production"
 	},
@@ -34,6 +36,8 @@
 		"eslint-import-resolver-typescript": "4.3.4",
 		"eslint-plugin-import": "^2.31.0",
 		"file-loader": "^6.2.0",
+		"@testing-library/react": "^16.2.0",
+		"@testing-library/user-event": "^14.6.1",
 		"postcss": "^8.5.3",
 		"postcss-loader": "^8.1.1",
 		"sass": "^1.87.0",
