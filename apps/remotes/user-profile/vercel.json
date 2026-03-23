@@ -1,0 +1,30 @@
+{
+	"installCommand": "pnpm install --frozen-lockfile",
+	"buildCommand": "pnpm --filter @repo/user-profile-app build",
+	"outputDirectory": "dist",
+	"routes": [
+		{
+			"src": "/remoteEntry.js",
+			"headers": {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "GET, OPTIONS",
+				"Cache-Control": "public, max-age=0, must-revalidate"
+			},
+			"continue": true
+		},
+		{
+			"src": "/assets/(.*)",
+			"headers": {
+				"Cache-Control": "public, max-age=31536000, immutable"
+			},
+			"continue": true
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "/(.*)",
+			"dest": "/index.html"
+		}
+	]
+}
