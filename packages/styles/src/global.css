@@ -56,6 +56,37 @@ a {
 	color: #d5deed;
 }
 
+.ecom-header-cart {
+	position: relative;
+	width: 40px;
+	height: 40px;
+	border-radius: 999px;
+	border: 1px solid var(--line);
+	background: rgba(255, 255, 255, 0.04);
+	color: #d5deed;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.ecom-header-cart-badge {
+	position: absolute;
+	top: -5px;
+	right: -6px;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 4px;
+	border-radius: 999px;
+	background: #3f83f8;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .ecom-avatar {
 	width: 40px;
 	height: 40px;

@@ -44,6 +44,7 @@ const NavigationEventsBridge: React.FC = () => {
 
 const ShellLayout: React.FC = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const cartItemsCount = useEcomStore((state) =>
 		state.cart.reduce((sum, item) => sum + item.quantity, 0),
 	);
@@ -56,8 +57,27 @@ const ShellLayout: React.FC = () => {
 			<header className="ecom-topbar">
 				<h1 className="ecom-title">E-Commerce Host</h1>
 				<div className="ecom-user">
-					<span className="ecom-avatar">{(user?.name ?? 'A').slice(0, 2).toUpperCase()}</span>
 					<span>{user?.name ?? 'Guest User'}</span>
+					<span className="ecom-avatar">{(user?.name ?? 'A').slice(0, 2).toUpperCase()}</span>
+					<button className="ecom-header-cart" type="button" onClick={() => navigate('/cart')}>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="18"
+							height="18"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							aria-hidden="true"
+						>
+							<circle cx="8" cy="21" r="1" />
+							<circle cx="19" cy="21" r="1" />
+							<path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+						</svg>
+						{cartItemsCount > 0 && <span className="ecom-header-cart-badge">{cartItemsCount}</span>}
+					</button>
 				</div>
 			</header>
 
