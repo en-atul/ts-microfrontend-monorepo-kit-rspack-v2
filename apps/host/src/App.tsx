@@ -50,7 +50,8 @@ const ShellLayout: React.FC = () => {
 	);
 	const user = useEcomStore((state) => state.user);
 
-	const isProducts = location.pathname === '/products' || location.pathname.startsWith('/products/');
+	const isProducts =
+		location.pathname === '/products' || location.pathname.startsWith('/products/');
 
 	return (
 		<div className="ecom-shell">
@@ -88,10 +89,16 @@ const ShellLayout: React.FC = () => {
 				<NavLink className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`} to="/cart">
 					<span>Cart ({cartItemsCount})</span>
 				</NavLink>
-				<NavLink className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`} to="/checkout">
+				<NavLink
+					className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`}
+					to="/checkout"
+				>
 					<span>Checkout</span>
 				</NavLink>
-				<NavLink className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`} to="/profile">
+				<NavLink
+					className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`}
+					to="/profile"
+				>
 					<span>Profile</span>
 				</NavLink>
 			</nav>

@@ -13,7 +13,7 @@
 		"dev": "scripts/workspace-runner.js dev",
 		"build": "pnpm gulp",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-		"postinstall": "find scripts -type f -exec grep -Il '^#!/usr/bin/env node' {} \\; | xargs chmod +x",
+		"postinstall": "find scripts -type f -exec grep -Il '^#!/usr/bin/env node' {} \\; | xargs chmod +x && pnpm --filter @repo/dev-cli build",
 		"lint": "pnpm --filter @repo/host-app lint && pnpm --filter @repo/product-listing-app lint && pnpm --filter @repo/product-details-app lint && pnpm --filter @repo/cart-app lint && pnpm --filter @repo/checkout-app lint && pnpm --filter @repo/user-profile-app lint"
 	},
 	"keywords": [

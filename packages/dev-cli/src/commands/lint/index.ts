@@ -155,9 +155,9 @@ export default class Lint extends Command {
 					};
 				}
 
-				cmd = `pnpm prettier ${fix ? '--write' : '--check'} ${staged.map((f: string) => `"${f}"`).join(' ')}`;
+				cmd = `pnpm prettier ${fix ? '--write' : '--check'} --ignore-unknown ${staged.map((f: string) => `"${f}"`).join(' ')}`;
 			} else {
-				cmd = `pnpm prettier ${fix ? '--write' : '--check'} "**/*.{ts,tsx,js,jsx,json,md,mdx,css,scss,html,yaml,yml}"`;
+				cmd = `pnpm prettier ${fix ? '--write' : '--check'} --ignore-unknown "**/*.{ts,tsx,js,jsx,json,md,mdx,css,scss,html,yaml,yml}"`;
 			}
 
 			const { stdout } = await execAsync(cmd, { cwd: rootDir });

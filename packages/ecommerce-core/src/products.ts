@@ -14,7 +14,8 @@ export const products: Product[] = [
 		name: 'Smart Fitness Watch',
 		price: 179,
 		category: 'Wearables',
-		description: 'Track workouts, heart rate, sleep and notifications with a bright AMOLED display.',
+		description:
+			'Track workouts, heart rate, sleep and notifications with a bright AMOLED display.',
 		image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80',
 	},
 	{

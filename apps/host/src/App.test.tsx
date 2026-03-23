@@ -6,30 +6,52 @@ import React from 'react';
 
 import App from './App';
 
-jest.mock('productListingApp/ProductListingWidget', () => ({
-	__esModule: true,
-	default: () => <div>Product Listing Remote</div>,
-}), { virtual: true });
+jest.mock(
+	'productListingApp/ProductListingWidget',
+	() => ({
+		__esModule: true,
+		default: () => <div>Product Listing Remote</div>,
+	}),
+	{ virtual: true },
+);
 
-jest.mock('productDetailsApp/ProductDetailsWidget', () => ({
-	__esModule: true,
-	default: ({ productId }: { productId: string }) => <div>Product Details Remote: {productId}</div>,
-}), { virtual: true });
+jest.mock(
+	'productDetailsApp/ProductDetailsWidget',
+	() => ({
+		__esModule: true,
+		default: ({ productId }: { productId: string }) => (
+			<div>Product Details Remote: {productId}</div>
+		),
+	}),
+	{ virtual: true },
+);
 
-jest.mock('cartApp/CartWidget', () => ({
-	__esModule: true,
-	default: () => <div>Cart Remote</div>,
-}), { virtual: true });
+jest.mock(
+	'cartApp/CartWidget',
+	() => ({
+		__esModule: true,
+		default: () => <div>Cart Remote</div>,
+	}),
+	{ virtual: true },
+);
 
-jest.mock('checkoutApp/CheckoutWidget', () => ({
-	__esModule: true,
-	default: () => <div>Checkout Remote</div>,
-}), { virtual: true });
+jest.mock(
+	'checkoutApp/CheckoutWidget',
+	() => ({
+		__esModule: true,
+		default: () => <div>Checkout Remote</div>,
+	}),
+	{ virtual: true },
+);
 
-jest.mock('userProfileApp/UserProfileWidget', () => ({
-	__esModule: true,
-	default: () => <div>User Profile Remote</div>,
-}), { virtual: true });
+jest.mock(
+	'userProfileApp/UserProfileWidget',
+	() => ({
+		__esModule: true,
+		default: () => <div>User Profile Remote</div>,
+	}),
+	{ virtual: true },
+);
 
 describe('Host app integration', () => {
 	beforeEach(() => {

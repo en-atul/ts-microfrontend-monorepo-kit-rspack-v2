@@ -34,7 +34,9 @@ const CartWidget: React.FC = () => {
 				);
 			})}
 			<h3>Total: ${total}</h3>
-			<Button onClick={() => emitEvent('navigation:go', { route: '/checkout' })}>Proceed To Checkout</Button>
+			<Button onClick={() => emitEvent('navigation:go', { route: '/checkout' })}>
+				Proceed To Checkout
+			</Button>
 		</section>
 	);
 };
