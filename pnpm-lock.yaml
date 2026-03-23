@@ -47,6 +47,12 @@ importers:
 
   apps/host:
     dependencies:
+      '@repo/ecommerce-core':
+        specifier: workspace:*
+        version: link:../../packages/ecommerce-core
+      '@repo/styles':
+        specifier: workspace:*
+        version: link:../../packages/styles
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -59,6 +65,9 @@ importers:
       react-dom:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.12(@types/react@19.1.2)(react@19.1.0)
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -120,40 +129,40 @@ importers:
       url-loader:
         specifier: ^4.1.1
         version: 4.1.1(file-loader@6.2.0(webpack@5.99.7))(webpack@5.99.7)
-      webpack-hot-middleware:
-        specifier: ^2.26.1
-        version: 2.26.1
 
-  apps/remote:
+  apps/remotes/cart:
     dependencies:
+      '@repo/ecommerce-core':
+        specifier: workspace:*
+        version: link:../../../packages/ecommerce-core
       '@repo/ui':
         specifier: workspace:*
-        version: link:../../packages/ui
-      framer-motion:
-        specifier: 12.10.1
-        version: 12.10.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: link:../../../packages/ui
       react:
         specifier: ^19.1.0
         version: 19.1.0
       react-dom:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.12(@types/react@19.1.2)(react@19.1.0)
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../packages/eslint-config
+        version: link:../../../packages/eslint-config
       '@repo/rspack-config':
         specifier: workspace:*
-        version: link:../../packages/rspack-config
+        version: link:../../../packages/rspack-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../packages/typescript-config
+        version: link:../../../packages/typescript-config
       '@rspack/cli':
         specifier: 1.3.11
         version: 1.3.11(@rspack/core@1.3.11(@swc/helpers@0.5.17))(@types/express@4.17.21)(webpack@5.99.7)
       '@types/node':
         specifier: ^22.14.0
-        version: 22.15.3
+        version: 22.15.18
       '@types/react':
         specifier: ^19.1.2
         version: 19.1.2
@@ -199,9 +208,325 @@ importers:
       url-loader:
         specifier: ^4.1.1
         version: 4.1.1(file-loader@6.2.0(webpack@5.99.7))(webpack@5.99.7)
-      webpack-hot-middleware:
-        specifier: ^2.26.1
-        version: 2.26.1
+
+  apps/remotes/checkout:
+    dependencies:
+      '@repo/ecommerce-core':
+        specifier: workspace:*
+        version: link:../../../packages/ecommerce-core
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../../packages/ui
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.12(@types/react@19.1.2)(react@19.1.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/eslint-config
+      '@repo/rspack-config':
+        specifier: workspace:*
+        version: link:../../../packages/rspack-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../../packages/typescript-config
+      '@rspack/cli':
+        specifier: 1.3.11
+        version: 1.3.11(@rspack/core@1.3.11(@swc/helpers@0.5.17))(@types/express@4.17.21)(webpack@5.99.7)
+      '@types/node':
+        specifier: ^22.14.0
+        version: 22.15.18
+      '@types/react':
+        specifier: ^19.1.2
+        version: 19.1.2
+      '@types/react-dom':
+        specifier: ^19.1.2
+        version: 19.1.2(@types/react@19.1.2)
+      autoprefixer:
+        specifier: ^10.4.21
+        version: 10.4.21(postcss@8.5.3)
+      css-loader:
+        specifier: ^7.1.2
+        version: 7.1.2(@rspack/core@1.3.11(@swc/helpers@0.5.17))(webpack@5.99.7)
+      eslint:
+        specifier: ^9.25.0
+        version: 9.25.1(jiti@2.4.2)
+      eslint-import-resolver-typescript:
+        specifier: 4.3.4
+        version: 4.3.4(eslint-plugin-import@2.31.0)(eslint@9.25.1(jiti@2.4.2))
+      file-loader:
+        specifier: ^6.2.0
+        version: 6.2.0(webpack@5.99.7)
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
+      postcss-loader:
+        specifier: ^8.1.1
+        version: 8.1.1(@rspack/core@1.3.11(@swc/helpers@0.5.17))(postcss@8.5.3)(typescript@5.8.3)(webpack@5.99.7)
+      sass:
+        specifier: ^1.87.0
+        version: 1.87.0
+      sass-loader:
+        specifier: ^16.0.5
+        version: 16.0.5(@rspack/core@1.3.11(@swc/helpers@0.5.17))(sass@1.87.0)(webpack@5.99.7)
+      style-loader:
+        specifier: ^4.0.0
+        version: 4.0.0(webpack@5.99.7)
+      ts-loader:
+        specifier: ^9.5.2
+        version: 9.5.2(typescript@5.8.3)(webpack@5.99.7)
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      url-loader:
+        specifier: ^4.1.1
+        version: 4.1.1(file-loader@6.2.0(webpack@5.99.7))(webpack@5.99.7)
+
+  apps/remotes/product-details:
+    dependencies:
+      '@repo/ecommerce-core':
+        specifier: workspace:*
+        version: link:../../../packages/ecommerce-core
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../../packages/ui
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.12(@types/react@19.1.2)(react@19.1.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/eslint-config
+      '@repo/rspack-config':
+        specifier: workspace:*
+        version: link:../../../packages/rspack-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../../packages/typescript-config
+      '@rspack/cli':
+        specifier: 1.3.11
+        version: 1.3.11(@rspack/core@1.3.11(@swc/helpers@0.5.17))(@types/express@4.17.21)(webpack@5.99.7)
+      '@types/node':
+        specifier: ^22.14.0
+        version: 22.15.18
+      '@types/react':
+        specifier: ^19.1.2
+        version: 19.1.2
+      '@types/react-dom':
+        specifier: ^19.1.2
+        version: 19.1.2(@types/react@19.1.2)
+      autoprefixer:
+        specifier: ^10.4.21
+        version: 10.4.21(postcss@8.5.3)
+      css-loader:
+        specifier: ^7.1.2
+        version: 7.1.2(@rspack/core@1.3.11(@swc/helpers@0.5.17))(webpack@5.99.7)
+      eslint:
+        specifier: ^9.25.0
+        version: 9.25.1(jiti@2.4.2)
+      eslint-import-resolver-typescript:
+        specifier: 4.3.4
+        version: 4.3.4(eslint-plugin-import@2.31.0)(eslint@9.25.1(jiti@2.4.2))
+      file-loader:
+        specifier: ^6.2.0
+        version: 6.2.0(webpack@5.99.7)
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
+      postcss-loader:
+        specifier: ^8.1.1
+        version: 8.1.1(@rspack/core@1.3.11(@swc/helpers@0.5.17))(postcss@8.5.3)(typescript@5.8.3)(webpack@5.99.7)
+      sass:
+        specifier: ^1.87.0
+        version: 1.87.0
+      sass-loader:
+        specifier: ^16.0.5
+        version: 16.0.5(@rspack/core@1.3.11(@swc/helpers@0.5.17))(sass@1.87.0)(webpack@5.99.7)
+      style-loader:
+        specifier: ^4.0.0
+        version: 4.0.0(webpack@5.99.7)
+      ts-loader:
+        specifier: ^9.5.2
+        version: 9.5.2(typescript@5.8.3)(webpack@5.99.7)
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      url-loader:
+        specifier: ^4.1.1
+        version: 4.1.1(file-loader@6.2.0(webpack@5.99.7))(webpack@5.99.7)
+
+  apps/remotes/product-listing:
+    dependencies:
+      '@repo/ecommerce-core':
+        specifier: workspace:*
+        version: link:../../../packages/ecommerce-core
+      '@repo/styles':
+        specifier: workspace:*
+        version: link:../../../packages/styles
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../../packages/ui
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.12(@types/react@19.1.2)(react@19.1.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/eslint-config
+      '@repo/rspack-config':
+        specifier: workspace:*
+        version: link:../../../packages/rspack-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../../packages/typescript-config
+      '@rspack/cli':
+        specifier: 1.3.11
+        version: 1.3.11(@rspack/core@1.3.11(@swc/helpers@0.5.17))(@types/express@4.17.21)(webpack@5.99.7)
+      '@types/node':
+        specifier: ^22.14.0
+        version: 22.15.18
+      '@types/react':
+        specifier: ^19.1.2
+        version: 19.1.2
+      '@types/react-dom':
+        specifier: ^19.1.2
+        version: 19.1.2(@types/react@19.1.2)
+      autoprefixer:
+        specifier: ^10.4.21
+        version: 10.4.21(postcss@8.5.3)
+      css-loader:
+        specifier: ^7.1.2
+        version: 7.1.2(@rspack/core@1.3.11(@swc/helpers@0.5.17))(webpack@5.99.7)
+      eslint:
+        specifier: ^9.25.0
+        version: 9.25.1(jiti@2.4.2)
+      eslint-import-resolver-typescript:
+        specifier: 4.3.4
+        version: 4.3.4(eslint-plugin-import@2.31.0)(eslint@9.25.1(jiti@2.4.2))
+      file-loader:
+        specifier: ^6.2.0
+        version: 6.2.0(webpack@5.99.7)
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
+      postcss-loader:
+        specifier: ^8.1.1
+        version: 8.1.1(@rspack/core@1.3.11(@swc/helpers@0.5.17))(postcss@8.5.3)(typescript@5.8.3)(webpack@5.99.7)
+      sass:
+        specifier: ^1.87.0
+        version: 1.87.0
+      sass-loader:
+        specifier: ^16.0.5
+        version: 16.0.5(@rspack/core@1.3.11(@swc/helpers@0.5.17))(sass@1.87.0)(webpack@5.99.7)
+      style-loader:
+        specifier: ^4.0.0
+        version: 4.0.0(webpack@5.99.7)
+      ts-loader:
+        specifier: ^9.5.2
+        version: 9.5.2(typescript@5.8.3)(webpack@5.99.7)
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      url-loader:
+        specifier: ^4.1.1
+        version: 4.1.1(file-loader@6.2.0(webpack@5.99.7))(webpack@5.99.7)
+
+  apps/remotes/user-profile:
+    dependencies:
+      '@repo/ecommerce-core':
+        specifier: workspace:*
+        version: link:../../../packages/ecommerce-core
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../../packages/ui
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.12(@types/react@19.1.2)(react@19.1.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/eslint-config
+      '@repo/rspack-config':
+        specifier: workspace:*
+        version: link:../../../packages/rspack-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../../packages/typescript-config
+      '@rspack/cli':
+        specifier: 1.3.11
+        version: 1.3.11(@rspack/core@1.3.11(@swc/helpers@0.5.17))(@types/express@4.17.21)(webpack@5.99.7)
+      '@types/node':
+        specifier: ^22.14.0
+        version: 22.15.18
+      '@types/react':
+        specifier: ^19.1.2
+        version: 19.1.2
+      '@types/react-dom':
+        specifier: ^19.1.2
+        version: 19.1.2(@types/react@19.1.2)
+      autoprefixer:
+        specifier: ^10.4.21
+        version: 10.4.21(postcss@8.5.3)
+      css-loader:
+        specifier: ^7.1.2
+        version: 7.1.2(@rspack/core@1.3.11(@swc/helpers@0.5.17))(webpack@5.99.7)
+      eslint:
+        specifier: ^9.25.0
+        version: 9.25.1(jiti@2.4.2)
+      eslint-import-resolver-typescript:
+        specifier: 4.3.4
+        version: 4.3.4(eslint-plugin-import@2.31.0)(eslint@9.25.1(jiti@2.4.2))
+      file-loader:
+        specifier: ^6.2.0
+        version: 6.2.0(webpack@5.99.7)
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
+      postcss-loader:
+        specifier: ^8.1.1
+        version: 8.1.1(@rspack/core@1.3.11(@swc/helpers@0.5.17))(postcss@8.5.3)(typescript@5.8.3)(webpack@5.99.7)
+      sass:
+        specifier: ^1.87.0
+        version: 1.87.0
+      sass-loader:
+        specifier: ^16.0.5
+        version: 16.0.5(@rspack/core@1.3.11(@swc/helpers@0.5.17))(sass@1.87.0)(webpack@5.99.7)
+      style-loader:
+        specifier: ^4.0.0
+        version: 4.0.0(webpack@5.99.7)
+      ts-loader:
+        specifier: ^9.5.2
+        version: 9.5.2(typescript@5.8.3)(webpack@5.99.7)
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      url-loader:
+        specifier: ^4.1.1
+        version: 4.1.1(file-loader@6.2.0(webpack@5.99.7))(webpack@5.99.7)
 
   packages/dev-cli:
     devDependencies:
@@ -232,6 +557,28 @@ importers:
       tslib:
         specifier: 2.8.1
         version: 2.8.1
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
+  packages/ecommerce-core:
+    dependencies:
+      zustand:
+        specifier: ^5.0.8
+        version: 5.0.12(@types/react@19.1.2)(react@19.1.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.14.0
+        version: 22.15.18
+      eslint:
+        specifier: ^9.25.0
+        version: 9.25.1(jiti@2.4.2)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -280,9 +627,6 @@ importers:
 
   packages/rspack-config:
     dependencies:
-      express:
-        specifier: 4.21.2
-        version: 4.21.2
       http-proxy-middleware:
         specifier: ^3.0.5
         version: 3.0.5
@@ -308,18 +652,14 @@ importers:
       dotenv-webpack:
         specifier: ^8.1.0
         version: 8.1.0(webpack@5.99.7)
-      webpack-dev-middleware:
-        specifier: 7.4.2
-        version: 7.4.2(webpack@5.99.7)
       webpack-dev-server:
         specifier: ^5.2.1
         version: 5.2.1(webpack@5.99.7)
-      webpack-hot-middleware:
-        specifier: ^2.26.1
-        version: 2.26.1
       webpack-merge:
         specifier: ^6.0.1
         version: 6.0.1
+
+  packages/styles: {}
 
   packages/typescript-config: {}
 
@@ -3904,20 +4244,6 @@ packages:
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
-  framer-motion@12.10.1:
-    resolution: {integrity: sha512-g+fANUVC17SzQc6eA0CtomBW4n67ckhS2hq5fjkKZneKzv7sbdXK3zzjnnAKB22Ck+Qhh+IlO5RjHNKULsq99Q==}
-    peerDependencies:
-      '@emotion/is-prop-valid': '*'
-      react: ^18.0.0 || ^19.0.0
-      react-dom: ^18.0.0 || ^19.0.0
-    peerDependenciesMeta:
-      '@emotion/is-prop-valid':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
-
   fresh@0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
@@ -5260,12 +5586,6 @@ packages:
   modify-values@1.0.1:
     resolution: {integrity: sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==}
     engines: {node: '>=0.10.0'}
-
-  motion-dom@12.10.1:
-    resolution: {integrity: sha512-rY8DNqgKh4LeFSQBkuXpe/7sycYS9RM+4luukjHpHogF1liSvIp0Hedx0q2QsWNz+AHuZ5bZQ9j9QZSUCA8bbw==}
-
-  motion-utils@12.9.4:
-    resolution: {integrity: sha512-BW3I65zeM76CMsfh3kHid9ansEJk9Qvl+K5cu4DVHKGsI52n76OJ4z2CUJUV+Mn3uEP9k1JJA3tClG0ggSrRcg==}
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -7251,6 +7571,24 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zustand@5.0.12:
+    resolution: {integrity: sha512-i77ae3aZq4dhMlRhJVCYgMLKuSiZAaUPAct2AksxQ+gOtimhGMdXljRT21P5BNpeT4kXlLIckvkPM029OljD7g==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
 
 snapshots:
 
@@ -11643,15 +11981,6 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
-  framer-motion@12.10.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      motion-dom: 12.10.1
-      motion-utils: 12.9.4
-      tslib: 2.8.1
-    optionalDependencies:
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-
   fresh@0.5.2: {}
 
   front-matter@4.0.2:
@@ -13340,12 +13669,6 @@ snapshots:
   mkdirp@1.0.4: {}
 
   modify-values@1.0.1: {}
-
-  motion-dom@12.10.1:
-    dependencies:
-      motion-utils: 12.9.4
-
-  motion-utils@12.9.4: {}
 
   mrmime@2.0.1: {}
 
@@ -15346,6 +15669,7 @@ snapshots:
       ansi-html-community: 0.0.8
       html-entities: 2.6.0
       strip-ansi: 6.0.1
+    optional: true
 
   webpack-merge@6.0.1:
     dependencies:
@@ -15377,7 +15701,7 @@ snapshots:
       mime-types: 2.1.35
       neo-async: 2.6.2
       schema-utils: 4.3.2
-      tapable: 2.2.1
+      tapable: 2.2.2
       terser-webpack-plugin: 5.3.14(webpack@5.99.7)
       watchpack: 2.4.2
       webpack-sources: 3.2.3
@@ -15570,3 +15894,8 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
+
+  zustand@5.0.12(@types/react@19.1.2)(react@19.1.0):
+    optionalDependencies:
+      '@types/react': 19.1.2
+      react: 19.1.0

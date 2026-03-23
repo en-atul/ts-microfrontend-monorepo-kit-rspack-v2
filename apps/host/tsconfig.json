@@ -9,6 +9,9 @@
 			],
 			"@repo/utils/*": [
 				"../../../packages/utils/src/*"
+			],
+			"@repo/ecommerce-core/*": [
+				"../../../packages/ecommerce-core/src/*"
 			]
 		},
 		"noCheck": true

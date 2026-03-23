@@ -17,13 +17,20 @@ const mode = args.mode || 'development';
 const baseFederationConfig = {
 	name: 'hostApp',
 	filename: 'remoteEntry.js',
-	exposes: {
-		'./Dummy': 'Dummy.tsx',
-	},
+	exposes: {},
 	shared: {
 		...deps,
 		react: { singleton: true, eager: true, requiredVersion: deps.react },
 		'react-dom': { singleton: true, eager: true, requiredVersion: deps['react-dom'] },
+		'@repo/ecommerce-core': {
+			singleton: true,
+			eager: true,
+			requiredVersion: deps['@repo/ecommerce-core'],
+		},
+		'@repo/ui': { singleton: true, eager: true, requiredVersion: deps['@repo/ui'] },
+		'@repo/styles': { singleton: true, eager: true, requiredVersion: deps['@repo/styles'] },
+		'@repo/utils': { singleton: true, eager: true, requiredVersion: deps['@repo/utils'] },
+		zustand: { singleton: true, eager: true, requiredVersion: deps.zustand },
 	},
 };
 
@@ -34,27 +41,51 @@ const getEnvironmentConfig = (env) => {
 			return {
 				publicPath: `http://localhost:${port}/`,
 				remotes: {
-					remoteApp: 'http://localhost:3001/remoteEntry.js',
+					productListingApp: 'http://localhost:3001/remoteEntry.js',
+					productDetailsApp: 'http://localhost:3002/remoteEntry.js',
+					cartApp: 'http://localhost:3003/remoteEntry.js',
+					checkoutApp: 'http://localhost:3004/remoteEntry.js',
+					userProfileApp: 'http://localhost:3005/remoteEntry.js',
 				},
-				allowedOrigins: ['http://localhost:3001/'],
+				allowedOrigins: [
+					'http://localhost:3001/',
+					'http://localhost:3002/',
+					'http://localhost:3003/',
+					'http://localhost:3004/',
+					'http://localhost:3005/',
+				],
 			};
 
 		case 'staging':
 			return {
 				publicPath: `http://staging.example.com/`,
 				remotes: {
-					remoteApp: `http://staging.example.com/remoteEntry.js`,
+					productListingApp: 'http://staging.example.com/product-listing/remoteEntry.js',
+					productDetailsApp: 'http://staging.example.com/product-details/remoteEntry.js',
+					cartApp: 'http://staging.example.com/cart/remoteEntry.js',
+					checkoutApp: 'http://staging.example.com/checkout/remoteEntry.js',
+					userProfileApp: 'http://staging.example.com/user-profile/remoteEntry.js',
 				},
-				allowedOrigins: ["http://staging.example.com/"],
+				allowedOrigins: ['http://staging.example.com/'],
 			};
 
 		case 'production':
 			return {
 				publicPath: `http://localhost:${port}/`,
 				remotes: {
-					remoteApp: 'http://localhost:3001/remoteEntry.js',
+					productListingApp: 'http://localhost:3001/remoteEntry.js',
+					productDetailsApp: 'http://localhost:3002/remoteEntry.js',
+					cartApp: 'http://localhost:3003/remoteEntry.js',
+					checkoutApp: 'http://localhost:3004/remoteEntry.js',
+					userProfileApp: 'http://localhost:3005/remoteEntry.js',
 				},
-				allowedOrigins: ["http://localhost:3001/"],
+				allowedOrigins: [
+					'http://localhost:3001/',
+					'http://localhost:3002/',
+					'http://localhost:3003/',
+					'http://localhost:3004/',
+					'http://localhost:3005/',
+				],
 			};
 
 		default:
@@ -62,9 +93,19 @@ const getEnvironmentConfig = (env) => {
 			return {
 				publicPath: `http://localhost:${port}/`,
 				remotes: {
-					remoteApp: 'http://localhost:3001/remoteEntry.js',
+					productListingApp: 'http://localhost:3001/remoteEntry.js',
+					productDetailsApp: 'http://localhost:3002/remoteEntry.js',
+					cartApp: 'http://localhost:3003/remoteEntry.js',
+					checkoutApp: 'http://localhost:3004/remoteEntry.js',
+					userProfileApp: 'http://localhost:3005/remoteEntry.js',
 				},
-				allowedOrigins: ["http://localhost:3001/"],
+				allowedOrigins: [
+					'http://localhost:3001/',
+					'http://localhost:3002/',
+					'http://localhost:3003/',
+					'http://localhost:3004/',
+					'http://localhost:3005/',
+				],
 			};
 	}
 };

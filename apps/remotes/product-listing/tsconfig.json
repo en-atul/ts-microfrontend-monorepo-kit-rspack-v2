@@ -1,0 +1,25 @@
+{
+	"extends": "@repo/typescript-config/reactjs.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"baseUrl": "src",
+		"paths": {
+			"@repo/ui/*": [
+				"../../../../packages/ui/src/*"
+			],
+			"@repo/utils/*": [
+				"../../../../packages/utils/src/*"
+			],
+			"@repo/ecommerce-core/*": [
+				"../../../../packages/ecommerce-core/src/*"
+			]
+		},
+		"noCheck": true
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

@@ -1,5 +1,5 @@
 {
-	"name": "@repo/remote-app",
+	"name": "@repo/user-profile-app",
 	"version": "1.0.0",
 	"license": "MIT",
 	"private": true,
@@ -12,10 +12,11 @@
 		"serve": "rspack serve --config rspack.config.js --mode=production"
 	},
 	"dependencies": {
+		"@repo/ecommerce-core": "workspace:*",
 		"@repo/ui": "workspace:*",
-		"framer-motion": "12.10.1",
 		"react": "^19.1.0",
-		"react-dom": "^19.1.0"
+		"react-dom": "^19.1.0",
+		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",

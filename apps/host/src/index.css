@@ -1,5 +1,7 @@
-body {
-	background-color: #000;
-	color: #fff;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+input {
+	padding: 8px 10px;
+	border-radius: 8px;
+	border: 1px solid #2d3747;
+	background: #0f1621;
+	color: #f4f7fc;
 }

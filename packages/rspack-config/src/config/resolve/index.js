@@ -4,6 +4,8 @@ export const createResolveConfig = (srcPath, packages, aliases = {}) => ({
     '@': srcPath,
     '@repo/ui': packages.ui,
     '@repo/utils': packages.utils,
+    '@repo/ecommerce-core': packages.ecommerceCore,
+    '@repo/styles': packages.styles,
     ...aliases,
   },
 }); 

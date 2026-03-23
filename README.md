@@ -134,7 +134,7 @@ module.exports = {
 ```
 ├── apps/                # Microfrontend applications
 │   ├── host/           # Host application
-│   └── remote/         # Remote application
+│   └── remotes/        # Remote application
 ├── packages/           # Shared packages
 │   ├── dev-cli/        # Development workflow tools
 │   ├── ui/             # Shared UI components

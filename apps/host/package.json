@@ -12,10 +12,13 @@
 		"serve": "rspack serve --config rspack.config.js --mode=production"
 	},
 	"dependencies": {
+		"@repo/ecommerce-core": "workspace:*",
+		"@repo/styles": "workspace:*",
 		"@repo/ui": "workspace:*",
 		"@repo/utils": "workspace:*",
 		"react": "^19.1.0",
-		"react-dom": "^19.1.0"
+		"react-dom": "^19.1.0",
+		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
