@@ -1,6 +1,6 @@
 # `@repo/styles`
 
-## Why we have this
+## Why this package exists
 
 `@repo/styles` provides a shared visual foundation (variables and utility classes) so host and
 remotes look consistent.

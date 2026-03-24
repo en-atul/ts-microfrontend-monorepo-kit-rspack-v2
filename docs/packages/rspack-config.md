@@ -1,6 +1,6 @@
 # `@repo/rspack-config`
 
-## Why we have this
+## Why this package exists
 
 This package centralizes shared Rspack setup for host and all remotes, reducing duplication in each
 app’s `rspack.config.js`.

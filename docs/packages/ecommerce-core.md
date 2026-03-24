@@ -1,6 +1,6 @@
 # `@repo/ecommerce-core`
 
-## Why we have this
+## Why this package exists
 
 `@repo/ecommerce-core` holds shared e-commerce domain logic used by host and remotes, so
 state/events/types stay consistent across microfrontends.

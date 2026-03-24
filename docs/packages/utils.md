@@ -1,6 +1,6 @@
 # `@repo/utils`
 
-## Why we have this
+## Why this package exists
 
 This package is for shared non-UI helper functions that multiple apps/packages may need.
 

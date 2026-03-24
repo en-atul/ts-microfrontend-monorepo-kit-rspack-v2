@@ -1,6 +1,6 @@
 # `@repo/typescript-config`
 
-## Why we have this
+## Why this package exists
 
 This package is the single source of truth for TypeScript compiler settings across apps and
 packages.

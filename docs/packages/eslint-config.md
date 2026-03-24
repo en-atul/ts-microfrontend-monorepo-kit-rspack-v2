@@ -1,6 +1,6 @@
 # `@repo/eslint-config`
 
-## Why we have this
+## Why this package exists
 
 This package keeps linting rules centralized so all apps/packages follow the same baseline
 conventions.

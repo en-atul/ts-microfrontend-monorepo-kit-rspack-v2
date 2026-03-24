@@ -1,6 +1,6 @@
 # `@repo/ui`
 
-## Why we have this
+## Why this package exists
 
 `@repo/ui` hosts reusable React UI components shared across host/remotes, reducing UI duplication.
 

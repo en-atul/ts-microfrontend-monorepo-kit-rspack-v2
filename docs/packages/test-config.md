@@ -1,6 +1,6 @@
 # `@repo/test-config`
 
-## Why we have this
+## Why this package exists
 
 This package centralizes shared test runner configuration (Jest and rstest) to keep test setup
 consistent and avoid duplicating config in each app.

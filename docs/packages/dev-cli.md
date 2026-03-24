@@ -6,7 +6,7 @@
 > pnpm --filter @repo/dev-cli build
 > ```
 
-## Why we have this
+## Why this package exists
 
 `@repo/dev-cli` centralizes local code-quality checks so contributors use one consistent command
 across the monorepo.
