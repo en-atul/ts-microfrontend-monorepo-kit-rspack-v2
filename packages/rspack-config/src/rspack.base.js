@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { getRootPath, getPackagePaths, getEnvPaths } from './constants/paths.js';
 import { createJavaScriptLoader } from './config/loaders/javascript.js';
 import { createStyleLoaders } from './config/loaders/styles.js';

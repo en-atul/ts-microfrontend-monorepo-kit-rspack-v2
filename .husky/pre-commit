@@ -5,5 +5,9 @@
 
 # sh scripts/check-pnpm.sh
 
-# Run ESLint and Prettier checks using our CLI tool
-pnpm dev-cli lint
+# Run staged file checks only
+# pnpm lint-staged
+
+# pnpm dev-cli lint
+
+pnpm lint-staged

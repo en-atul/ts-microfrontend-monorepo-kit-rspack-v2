@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { getFilePaths } from './utils.js';
 import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
 import { rspack } from '@rspack/core';

@@ -1,8 +1,7 @@
-import path from 'path';
+import path from 'pnode:ath';
 import ReactRefreshPlugin from '@rspack/plugin-react-refresh';
 import { getFilePaths } from './utils.js';
 import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
-import { rspack } from '@rspack/core';
 
 export default ({ baseUrl, configs }) => {
 	const { __dirname } = getFilePaths(baseUrl);

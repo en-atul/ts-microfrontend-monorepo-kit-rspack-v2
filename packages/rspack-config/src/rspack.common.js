@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { createBaseRSpackConfig } from './rspack.base.js';
 import { getFilePaths } from './utils.js';
 
