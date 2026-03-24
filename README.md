@@ -2,9 +2,9 @@
 
 <!-- ![Banner](screenshots/banner.png) -->
 
-A production-ready monorepo for building scalable microfrontends with independent
-remotes, shared state, and a router-driven host shell. Built from scratch for full control over
-Module Federation, runtime sharing, and deployment setup.
+A production-ready monorepo for building scalable microfrontends with independent remotes, shared
+state, and a router-driven host shell. Built from scratch for full control over Module Federation,
+runtime sharing, and deployment setup.
 
 ## Table of Contents
 
@@ -19,6 +19,7 @@ Module Federation, runtime sharing, and deployment setup.
 - [Security](#-security)
 - [Deployment](#-deployment)
 - [Contributing](#-contributing)
+- [Package Docs](#-package-docs)
 
 ## 🎯 Overview
 
@@ -329,6 +330,12 @@ NODE_ENV=staging pnpm build
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and the process for
 submitting pull requests.
 
+## 📚 Package Docs
+
+Detailed package-level docs are available at:
+
+- [`docs/packages/README.md`](docs/packages/README.md)
+
 ---
 
 ## 💬 Support
@@ -336,4 +343,3 @@ submitting pull requests.
 For questions and support, please open an issue in the GitHub repository.
 
 If you find this project helpful, please give it a star ⭐️.
-
