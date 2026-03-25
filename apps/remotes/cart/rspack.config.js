@@ -1,15 +1,28 @@
 import pc from 'picocolors';
+import dotenv from 'dotenv';
+import fs from 'node:fs';
 import { createRequire } from 'module';
 import { getConfig } from '@repo/rspack-config/config';
-import { parseArgs } from '@repo/rspack-config/utils';
+import {
+	createRemoteEntryOriginGuard,
+	parseArgs,
+	getEnvironmentConfig,
+} from '@repo/rspack-config/utils';
+
+const args = parseArgs(process.argv.slice(2));
+const mode = args.mode || 'development';
+
+if (fs.existsSync(`.env.${mode}`)) {
+	dotenv.config({ path: `.env.${mode}` });
+}
 
 const moduleUrl = import.meta.url;
 const require = createRequire(moduleUrl);
+
+const port = Number(process.env.PORT ?? 3003);
+
 const { dependencies: deps } = require('./package.json');
-const port = 3003;
-const deployedHostOrigin = process.env.HOST_APP_ORIGIN || 'https://ecom-mfe-host.vercel.app';
-const args = parseArgs(process.argv.slice(2));
-const mode = args.mode || 'development';
+const fedConfig = (await import('./federation.config.js')).default;
 
 const baseFederationConfig = {
 	name: 'cartApp',
@@ -31,11 +44,11 @@ const baseFederationConfig = {
 	},
 };
 
+const environmentConfig = getEnvironmentConfig(mode, fedConfig);
+
 const federationConfigs = {
 	...baseFederationConfig,
-	publicPath: mode === 'development' ? `http://localhost:${port}/` : 'auto',
-	remotes: {},
-	allowedOrigins: mode === 'development' ? ['http://localhost:3000/'] : [`${deployedHostOrigin}/`],
+	...environmentConfig,
 };
 
 console.log(pc.gray(`[${mode === 'development' ? 'Dev' : 'Build'}]: ${pc.magenta(mode)}`));
@@ -55,6 +68,17 @@ if (mode === 'development') {
 		historyApiFallback: true,
 		headers: {
 			'Access-Control-Allow-Origin': '*',
+		},
+		setupMiddlewares: function (middlewares, devServer) {
+			devServer.app.use(
+				'/remoteEntry.js',
+				createRemoteEntryOriginGuard({
+					publicPath: federationConfigs.publicPath,
+					allowedOrigins: federationConfigs.allowedOrigins,
+				}),
+			);
+
+			return middlewares;
 		},
 	};
 }

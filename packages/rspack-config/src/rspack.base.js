@@ -9,7 +9,7 @@ import { createResolveConfig } from './config/resolve/index.js';
 const createBaseRSpackConfig = ({ rootPath, srcPath, publicPath, aliases = {}, mode }) => {
 	const ROOT = getRootPath(import.meta.url);
 	const PACKAGES = getPackagePaths(ROOT);
-	const { dotenvPath, fallbackDotenvPath, nodeEnv } = getEnvPaths(rootPath);
+	const { dotenvPath, fallbackDotenvPath, nodeEnv } = getEnvPaths(rootPath, mode);
 	const isDevelopment = nodeEnv === 'development';
 
 	return {

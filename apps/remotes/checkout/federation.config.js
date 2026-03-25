@@ -1,29 +1,11 @@
 import { makeRemoteWithFallback, truthy } from '@repo/rspack-config/utils';
 
-const localRemotes = {
-	productListingApp: process.env.PRODUCT_LISTING_REMOTE_URL_LOCAL,
-	productDetailsApp: process.env.PRODUCT_DETAILS_REMOTE_URL_LOCAL,
-	cartApp: process.env.CART_REMOTE_URL_LOCAL,
-	checkoutApp: process.env.CHECKOUT_REMOTE_URL_LOCAL,
-	userProfileApp: process.env.USER_PROFILE_REMOTE_URL_LOCAL,
-};
-
-const deployedRemotes = {
-	productListingApp: process.env.PRODUCT_LISTING_REMOTE_URL,
-	productDetailsApp: process.env.PRODUCT_DETAILS_REMOTE_URL,
-	cartApp: process.env.CART_REMOTE_URL,
-	checkoutApp: process.env.CHECKOUT_REMOTE_URL,
-	userProfileApp: process.env.USER_PROFILE_REMOTE_URL,
-};
-
-const allowedOrigins =
-	process.env.ALLOWED_ORIGINS.split(',')
-		.filter(Boolean)
-		.map((url) => new URL(url).origin) || [];
+const localRemotes = {};
+const deployedRemotes = {};
 
 const enableDevRemoteFallback = truthy(process.env.ENABLE_REMOTE_FALLBACK);
-const hostPort = Number(process.env.PORT ?? 3000);
-const devPublicPath = `http://localhost:${hostPort}`;
+const port = Number(process.env.PORT ?? 3004);
+const devPublicPath = `http://localhost:${port}/`;
 const devRemotes = enableDevRemoteFallback
 	? Object.fromEntries(
 			Object.keys(localRemotes).map((scope) => [
@@ -32,6 +14,11 @@ const devRemotes = enableDevRemoteFallback
 			]),
 		)
 	: localRemotes;
+
+const allowedOrigins =
+	process.env.ALLOWED_ORIGINS.split(',')
+		.filter(Boolean)
+		.map((url) => new URL(url).origin) || [];
 
 const config = {
 	development: {

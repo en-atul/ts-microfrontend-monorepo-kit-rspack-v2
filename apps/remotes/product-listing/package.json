@@ -5,10 +5,10 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "NODE_ENV=production rspack --config rspack.config.js --mode=production",
+		"build": "rspack --config rspack.config.js --mode=production",
 		"clean-build": "gulp",
 		"lint": "eslint \"src/**/*.{ts,tsx}\"",
-		"dev": "NODE_ENV=development rspack serve --config rspack.config.js --mode=development",
+		"dev": "rspack serve --config rspack.config.js --mode=development",
 		"serve": "rspack serve --config rspack.config.js --mode=production"
 	},
 	"dependencies": {
@@ -29,6 +29,7 @@
 		"@types/react-dom": "^19.1.2",
 		"autoprefixer": "^10.4.21",
 		"css-loader": "^7.1.2",
+		"dotenv": "17.3.1",
 		"eslint": "^9.25.0",
 		"eslint-import-resolver-typescript": "4.3.4",
 		"file-loader": "^6.2.0",

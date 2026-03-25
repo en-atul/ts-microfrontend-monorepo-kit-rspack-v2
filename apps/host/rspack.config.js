@@ -1,16 +1,32 @@
 import pc from 'picocolors';
+import dotenv from 'dotenv';
+import fs from 'node:fs';
 import { createRequire } from 'module';
 import { getConfig } from '@repo/rspack-config/config';
-import { parseArgs } from '@repo/rspack-config/utils';
-import hostConfig from './federation.config.js';
+import {
+	createRemoteEntryOriginGuard,
+	parseArgs,
+	getEnvironmentConfig,
+} from '@repo/rspack-config/utils';
+
+const args = parseArgs(process.argv.slice(2));
+const mode = args.mode || 'development';
+
+if (fs.existsSync(`.env.${mode}`)) {
+	dotenv.config({ path: `.env.${mode}` });
+}
 
 const moduleUrl = import.meta.url;
 const require = createRequire(moduleUrl);
 
-const { dependencies: deps } = require('./package.json');
+const port = Number(process.env.PORT ?? 3000);
 
-const args = parseArgs(process.argv.slice(2));
-const mode = args.mode || 'development';
+const { dependencies: deps } = require('./package.json');
+/**
+ * IMPORTANT: federation.config.js must be imported after env vars are set.
+ * eg: ENABLE_REMOTE_FALLBACK needs to be available in the federation config.
+ */
+const fedConfig = (await import('./federation.config.js')).default;
 
 // Base configuration
 const baseFederationConfig = {
@@ -38,42 +54,8 @@ const baseFederationConfig = {
 	},
 };
 
-// Environment-specific settings (overrides for each environment)
-const getEnvironmentConfig = (env) => {
-	switch (env) {
-		case 'development':
-			return {
-				publicPath: hostConfig.development.publicPath,
-				remotes: hostConfig.development.remotes,
-				allowedOrigins: hostConfig.development.allowedOrigins,
-			};
-
-		case 'staging':
-			return {
-				publicPath: hostConfig.staging.publicPath,
-				remotes: hostConfig.staging.remotes,
-				allowedOrigins: hostConfig.staging.allowedOrigins,
-			};
-
-		case 'production':
-			return {
-				publicPath: hostConfig.production.publicPath,
-				remotes: hostConfig.production.remotes,
-				allowedOrigins: hostConfig.production.allowedOrigins,
-			};
-
-		default:
-			// Fallback to development as default environment
-			return {
-				publicPath: hostConfig.default.publicPath,
-				remotes: hostConfig.default.remotes,
-				allowedOrigins: hostConfig.default.allowedOrigins,
-			};
-	}
-};
-
 // Get the specific environment config
-const environmentConfig = getEnvironmentConfig(process.env.NODE_ENV);
+const environmentConfig = getEnvironmentConfig(mode, fedConfig);
 
 // Combine base and environment-specific configs
 const federationConfigs = {
@@ -92,7 +74,7 @@ const config = getConfig({
 // Add devServer configuration for development mode
 if (mode === 'development') {
 	config.devServer = {
-		port: 3000,
+		port,
 		host: 'localhost',
 		hot: true,
 		open: true,
@@ -100,18 +82,14 @@ if (mode === 'development') {
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 		},
-		// Handle remote entry access control
 		setupMiddlewares: function (middlewares, devServer) {
-			devServer.app.use('/remoteEntry.js', (req, res, next) => {
-				const referer = req.get('origin') || req.get('referer');
-				const isSameOrigin = referer === federationConfigs.publicPath;
-
-				if (federationConfigs.allowedOrigins.some((origin) => referer && referer.startsWith(origin)) || isSameOrigin) {
-					return next();
-				}
-
-				res.status(403).send('Forbidden: Referer not allowed');
-			});
+			devServer.app.use(
+				'/remoteEntry.js',
+				createRemoteEntryOriginGuard({
+					publicPath: federationConfigs.publicPath,
+					allowedOrigins: federationConfigs.allowedOrigins,
+				}),
+			);
 
 			return middlewares;
 		},

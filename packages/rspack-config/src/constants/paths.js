@@ -14,8 +14,8 @@ export const getPackagePaths = (rootPath) => ({
 	styles: path.join(rootPath, 'packages/styles/src'),
 });
 
-export const getEnvPaths = (rootPath) => {
-	const nodeEnv = process.env.NODE_ENV || 'development';
+export const getEnvPaths = (rootPath, mode) => {
+	const nodeEnv = mode || 'development';
 	const envPath = `.env.${nodeEnv}`;
 	return {
 		dotenvPath: path.resolve(rootPath, envPath),

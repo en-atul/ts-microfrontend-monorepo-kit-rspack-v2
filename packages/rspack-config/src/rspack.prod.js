@@ -9,7 +9,16 @@ export default ({ baseUrl, configs }) => {
 	const SRC = path.join(__dirname, 'src');
 
 	const createRemoteEntries = (remotes) =>
-		Object.fromEntries(Object.entries(remotes).map(([key, url]) => [key, `${key}@${url}`]));
+		Object.fromEntries(
+			Object.entries(remotes).map(([key, value]) => {
+				// Support "promise new Promise(...)" remotes (runtime-resolved) by passing through as-is.
+				// For standard string remotes, keep the usual "scope@url" format.
+				if (typeof value === 'string' && value.trim().startsWith('promise ')) {
+					return [key, value];
+				}
+				return [key, `${key}@${value}`];
+			}),
+		);
 
 	const createExposeEntries = (exposes) =>
 		Object.fromEntries(

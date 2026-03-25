@@ -1,15 +1,28 @@
 import pc from 'picocolors';
+import dotenv from 'dotenv';
+import fs from 'node:fs';
 import { createRequire } from 'module';
 import { getConfig } from '@repo/rspack-config/config';
-import { parseArgs } from '@repo/rspack-config/utils';
+import {
+	createRemoteEntryOriginGuard,
+	getEnvironmentConfig,
+	parseArgs,
+} from '@repo/rspack-config/utils';
+
+const args = parseArgs(process.argv.slice(2));
+const mode = args.mode || 'development';
+
+if (fs.existsSync(`.env.${mode}`)) {
+	dotenv.config({ path: `.env.${mode}` });
+}
 
 const moduleUrl = import.meta.url;
 const require = createRequire(moduleUrl);
+
+const port = Number(process.env.PORT ?? 3002);
+
 const { dependencies: deps } = require('./package.json');
-const port = 3002;
-const deployedHostOrigin = process.env.HOST_APP_ORIGIN || 'https://ecom-mfe-host.vercel.app';
-const args = parseArgs(process.argv.slice(2));
-const mode = args.mode || 'development';
+const fedConfig = (await import('./federation.config.js')).default;
 
 const baseFederationConfig = {
 	name: 'productDetailsApp',
@@ -31,25 +44,11 @@ const baseFederationConfig = {
 	},
 };
 
-const getEnvironmentConfig = (env) => {
-	if (env === 'development') {
-		return {
-			publicPath: `http://localhost:${port}/`,
-			remotes: {},
-			allowedOrigins: ['http://localhost:3000/'],
-		};
-	}
-
-	return {
-		publicPath: 'auto',
-		remotes: {},
-		allowedOrigins: [`${deployedHostOrigin}/`],
-	};
-};
+const environmentConfig = getEnvironmentConfig(mode, fedConfig);
 
 const federationConfigs = {
 	...baseFederationConfig,
-	...getEnvironmentConfig(process.env.NODE_ENV),
+	...environmentConfig,
 };
 
 console.log(pc.gray(`[${mode === 'development' ? 'Dev' : 'Build'}]: ${pc.magenta(mode)}`));
@@ -69,6 +68,17 @@ if (mode === 'development') {
 		historyApiFallback: true,
 		headers: {
 			'Access-Control-Allow-Origin': '*',
+		},
+		setupMiddlewares: function (middlewares, devServer) {
+			devServer.app.use(
+				'/remoteEntry.js',
+				createRemoteEntryOriginGuard({
+					publicPath: federationConfigs.publicPath,
+					allowedOrigins: federationConfigs.allowedOrigins,
+				}),
+			);
+
+			return middlewares;
 		},
 	};
 }
