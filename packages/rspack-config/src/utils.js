@@ -49,12 +49,31 @@ const makeRemoteWithFallback = (scope, localUrl, fallbackUrl) => {
   const fallbackUrl = ${JSON.stringify(fallbackUrl)};
   const timeoutMs = ${JSON.stringify(timeoutMs)};
 
-  const markResolved = (url, source) => {
+  const mergeResolution = (patch) => {
     try {
       globalThis.__MF_REMOTE_RESOLUTION__ = globalThis.__MF_REMOTE_RESOLUTION__ || {};
-      globalThis.__MF_REMOTE_RESOLUTION__[scope] = { url, source, resolvedAt: Date.now() };
-      globalThis.dispatchEvent?.(new CustomEvent('mf:remote-resolved', { detail: { scope, url, source } }));
+      const prev = globalThis.__MF_REMOTE_RESOLUTION__[scope] || {};
+      globalThis.__MF_REMOTE_RESOLUTION__[scope] = { ...prev, ...patch, resolvedAt: Date.now() };
+      globalThis.dispatchEvent?.(new CustomEvent('mf:remote-resolved', { detail: { scope, ...patch } }));
     } catch (_) {}
+  };
+
+  const markResolved = (url, source) => {
+    mergeResolution({ url, source });
+  };
+
+  const probeLocalRemote = async (url) => {
+    try {
+      const r = await fetch(url, { method: 'HEAD', mode: 'cors', cache: 'no-store' });
+      return { status: r.status, blocked: false };
+    } catch {
+      try {
+        const r = await fetch(url, { method: 'GET', mode: 'cors', cache: 'no-store' });
+        return { status: r.status, blocked: false };
+      } catch {
+        return { status: null, blocked: true };
+      }
+    }
   };
 
   const resolveContainer = (source, url) => {
@@ -105,9 +124,43 @@ const makeRemoteWithFallback = (scope, localUrl, fallbackUrl) => {
 
   loadScript(localUrl, 'local')
     .then(({ url, source }) => resolveContainer(source, url))
-    .catch(() => loadScript(fallbackUrl, 'fallback')
-      .then(({ url, source }) => resolveContainer(source, url))
-      .catch((e) => reject(e)));
+    .catch(async (scriptErr) => {
+      const scriptMsg = String(
+        scriptErr && scriptErr.message != null ? scriptErr.message : scriptErr || '',
+      );
+      const timedOut = scriptMsg.includes('Timeout');
+      const { status, blocked } = await probeLocalRemote(localUrl);
+      let localNote = '';
+      let localLikelyOffline = false;
+      if (timedOut) {
+        localLikelyOffline = true;
+        localNote =
+          'Local dev server did not respond in time — it is probably not running. Using the deployed remote instead.';
+      } else if (!blocked && status === 403) {
+        localNote =
+          'Forbidden — remote /remoteEntry.js blocked this host (check ALLOWED_ORIGINS / Referer on the remote dev server).';
+      } else if (!blocked && status != null && status >= 400) {
+        localNote = 'HTTP ' + status;
+      } else if (!blocked && status != null && status < 400) {
+        localNote =
+          'Local responded ' +
+          status +
+          ' but script load still failed — check publicPath (trailing slash), MIME, or CSP.';
+      } else if (blocked) {
+        localLikelyOffline = true;
+        localNote =
+          'Could not verify local dev server from this page (browser may hide the status). Most often the app is not running on that port — open Network → remoteEntry.js: connection refused means nothing is listening. If it is running, you may need CORS on error responses or fix Referer / ALLOWED_ORIGINS.';
+      }
+      mergeResolution({
+        localUrl,
+        localHttpStatus: status,
+        localFailureNote: localNote || undefined,
+        localLikelyOffline: localLikelyOffline || undefined,
+      });
+      return loadScript(fallbackUrl, 'fallback')
+        .then(({ url, source }) => resolveContainer(source, url))
+        .catch((e) => reject(e));
+    });
 })`;
 };
 
@@ -134,10 +187,26 @@ const createRemoteEntryOriginGuard = ({ publicPath, allowedOrigins }) => {
 	const allowed = (allowedOrigins || []).map((o) => String(o).replace(/\/$/, ''));
 
 	return (req, res, next) => {
+		const setErrorCors = () => {
+			const origin = req.get('origin');
+			// So cross-origin fetch from the host (e.g. status probe / preflight) can read non-2xx responses.
+			res.setHeader('Access-Control-Allow-Origin', origin || '*');
+			res.setHeader('Vary', 'Origin');
+		};
+
+		if (req.method === 'OPTIONS') {
+			setErrorCors();
+			res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+			res.setHeader('Access-Control-Max-Age', '86400');
+			res.status(204).end();
+			return;
+		}
+
 		const header = req.get('origin') || req.get('referer') || '';
 		const requestOrigin = getOriginFromHeader(header).replace(/\/$/, '');
 
 		if (!requestOrigin) {
+			setErrorCors();
 			res.status(403).send('Forbidden: Referer not allowed');
 			return;
 		}
@@ -147,6 +216,7 @@ const createRemoteEntryOriginGuard = ({ publicPath, allowedOrigins }) => {
 			return;
 		}
 
+		setErrorCors();
 		res.status(403).send('Forbidden: Referer not allowed');
 	};
 };
