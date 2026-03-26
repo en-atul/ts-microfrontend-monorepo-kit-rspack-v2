@@ -16,10 +16,10 @@ const deployedRemotes = {
 	userProfileApp: process.env.USER_PROFILE_REMOTE_URL,
 };
 
-const allowedOrigins =
-	process.env.ALLOWED_ORIGINS.split(',')
-		.filter(Boolean)
-		.map((url) => new URL(url).origin) || [];
+const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? '')
+	.split(',')
+	.filter(Boolean)
+	.map((url) => new URL(url).origin);
 
 const enableDevRemoteFallback = truthy(process.env.ENABLE_REMOTE_FALLBACK);
 const hostPort = Number(process.env.PORT ?? 3000);

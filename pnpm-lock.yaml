@@ -50,6 +50,9 @@ importers:
       '@repo/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      lucide-react:
+        specifier: 1.7.0
+        version: 1.7.0(react@19.2.4)
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -147,6 +150,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../../packages/ui
+      lucide-react:
+        specifier: 1.7.0
+        version: 1.7.0(react@19.2.4)
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -235,6 +241,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../../packages/ui
+      lucide-react:
+        specifier: 1.7.0
+        version: 1.7.0(react@19.2.4)
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -323,6 +332,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../../packages/ui
+      lucide-react:
+        specifier: 1.7.0
+        version: 1.7.0(react@19.2.4)
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -414,6 +426,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../../packages/ui
+      lucide-react:
+        specifier: 1.7.0
+        version: 1.7.0(react@19.2.4)
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -502,6 +517,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../../packages/ui
+      lucide-react:
+        specifier: 1.7.0
+        version: 1.7.0(react@19.2.4)
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -6162,6 +6180,11 @@ packages:
   lru-cache@6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
+
+  lucide-react@1.7.0:
+    resolution: {integrity: sha512-yI7BeItCLZJTXikmK4KNUGCKoGzSvbKlfCvw44bU4fXAL6v3gYS4uHD1jzsLkfwODYwI6Drw5Tu9Z5ulDe0TSg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   luxon@3.7.2:
     resolution: {integrity: sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew==}
@@ -15165,6 +15188,10 @@ snapshots:
   lru-cache@6.0.0:
     dependencies:
       yallist: 4.0.0
+
+  lucide-react@1.7.0(react@19.2.4):
+    dependencies:
+      react: 19.2.4
 
   luxon@3.7.2: {}
 

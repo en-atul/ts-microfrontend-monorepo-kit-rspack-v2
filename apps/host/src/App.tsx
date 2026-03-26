@@ -1,5 +1,6 @@
 import { onEvent, useEcomStore } from '@repo/ecommerce-core';
 import React, { Suspense, useEffect } from 'react';
+import { Package, ShoppingCart } from 'lucide-react';
 import {
 	BrowserRouter,
 	Navigate,
@@ -50,110 +51,134 @@ const ShellLayout: React.FC = () => {
 	);
 	const user = useEcomStore((state) => state.user);
 
-	const isProducts =
-		location.pathname === '/products' || location.pathname.startsWith('/products/');
-
 	return (
-		<div className="ecom-shell">
-			<header className="ecom-topbar">
-				<h1 className="ecom-title">E-Commerce Host</h1>
-				<div className="ecom-user">
-					<span>{user?.name ?? 'Guest User'}</span>
-					<span className="ecom-avatar">{(user?.name ?? 'A').slice(0, 2).toUpperCase()}</span>
-					<button className="ecom-header-cart" type="button" onClick={() => navigate('/cart')}>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="18"
-							height="18"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							aria-hidden="true"
-						>
-							<circle cx="8" cy="21" r="1" />
-							<circle cx="19" cy="21" r="1" />
-							<path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-						</svg>
-						{cartItemsCount > 0 && <span className="ecom-header-cart-badge">{cartItemsCount}</span>}
+		<div className="min-h-screen bg-slate-950 text-slate-200">
+			<nav className="sticky top-0 z-50 border-b border-slate-900 bg-slate-950/80 backdrop-blur-md">
+				<div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+					<button
+						type="button"
+						onClick={() => navigate('/products')}
+						className="flex cursor-pointer items-center gap-2"
+					>
+						<div className="rounded-lg bg-indigo-600 p-1.5">
+							<Package className="h-5 w-5 text-white" />
+						</div>
+						<span className="text-lg font-bold tracking-tight uppercase tracking-widest text-white">
+							E-Host
+						</span>
 					</button>
-				</div>
-			</header>
 
-			<nav className="ecom-tabs">
-				<NavLink className={`ecom-tab ${isProducts ? 'is-active' : ''}`} to="/products">
-					<span>Shop</span>
-				</NavLink>
-				<NavLink className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`} to="/cart">
-					<span>Cart ({cartItemsCount})</span>
-				</NavLink>
-				<NavLink
-					className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`}
-					to="/checkout"
-				>
-					<span>Checkout</span>
-				</NavLink>
-				<NavLink
-					className={({ isActive }) => `ecom-tab ${isActive ? 'is-active' : ''}`}
-					to="/profile"
-				>
-					<span>Profile</span>
-				</NavLink>
+					<div className="flex gap-6">
+						<NavLink
+							to="/products"
+							className={({ isActive }) =>
+								`text-xs font-bold uppercase tracking-widest transition-colors ${
+									isActive ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+								}`
+							}
+						>
+							Shop
+						</NavLink>
+						<NavLink
+							to="/cart"
+							className={({ isActive }) =>
+								`text-xs font-bold uppercase tracking-widest transition-colors ${
+									isActive ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+								}`
+							}
+						>
+							Cart
+						</NavLink>
+						<NavLink
+							to="/checkout"
+							className={({ isActive }) =>
+								`text-xs font-bold uppercase tracking-widest transition-colors ${
+									isActive ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
+								}`
+							}
+						>
+							Checkout
+						</NavLink>
+					</div>
+
+					<div className="flex items-center gap-4">
+						<button
+							type="button"
+							onClick={() => navigate('/cart')}
+							className="relative p-2 text-slate-400 transition-colors hover:text-white"
+							aria-label="Open cart"
+						>
+							<ShoppingCart className="h-5 w-5" />
+							{cartItemsCount > 0 && (
+								<span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white ring-2 ring-slate-950">
+									{cartItemsCount}
+								</span>
+							)}
+						</button>
+						<button
+							type="button"
+							onClick={() => navigate('/profile')}
+							className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-700 bg-slate-800 text-[10px] font-bold text-slate-300 transition-colors hover:border-indigo-400"
+							aria-label="Open profile"
+						>
+							{(user?.name ?? 'AD').slice(0, 2).toUpperCase()}
+						</button>
+					</div>
+				</div>
 			</nav>
 
-			<p className="ecom-breadcrumb">
-				Home {'>'}{' '}
-				{location.pathname.startsWith('/products/')
-					? 'Product Details'
-					: location.pathname.replace('/', '') || 'products'}
-			</p>
+			<main className="mx-auto w-full max-w-6xl px-6 py-12">
+				<Routes>
+					<Route
+						path="/products"
+						element={
+							<RemoteBoundary>
+								<ProductListingWidget />
+							</RemoteBoundary>
+						}
+					/>
+					<Route
+						path="/products/:productId"
+						element={
+							<RemoteBoundary>
+								<ProductDetailsRoute />
+							</RemoteBoundary>
+						}
+					/>
+					<Route
+						path="/cart"
+						element={
+							<RemoteBoundary>
+								<CartWidget />
+							</RemoteBoundary>
+						}
+					/>
+					<Route
+						path="/checkout"
+						element={
+							<RemoteBoundary>
+								<CheckoutWidget />
+							</RemoteBoundary>
+						}
+					/>
+					<Route
+						path="/profile"
+						element={
+							<RemoteBoundary>
+								<UserProfileWidget />
+							</RemoteBoundary>
+						}
+					/>
+					<Route path="/" element={<Navigate to="/products" replace />} />
+					<Route path="*" element={<Navigate to="/products" replace />} />
+				</Routes>
+			</main>
 
-			<Routes>
-				<Route
-					path="/products"
-					element={
-						<RemoteBoundary>
-							<ProductListingWidget />
-						</RemoteBoundary>
-					}
-				/>
-				<Route
-					path="/products/:productId"
-					element={
-						<RemoteBoundary>
-							<ProductDetailsRoute />
-						</RemoteBoundary>
-					}
-				/>
-				<Route
-					path="/cart"
-					element={
-						<RemoteBoundary>
-							<CartWidget />
-						</RemoteBoundary>
-					}
-				/>
-				<Route
-					path="/checkout"
-					element={
-						<RemoteBoundary>
-							<CheckoutWidget />
-						</RemoteBoundary>
-					}
-				/>
-				<Route
-					path="/profile"
-					element={
-						<RemoteBoundary>
-							<UserProfileWidget />
-						</RemoteBoundary>
-					}
-				/>
-				<Route path="/" element={<Navigate to="/products" replace />} />
-				<Route path="*" element={<Navigate to="/products" replace />} />
-			</Routes>
+			<footer className="border-t border-slate-900 py-10 text-center opacity-30">
+				<p className="text-slate-600 text-[10px] font-bold uppercase tracking-[0.4em]">
+					E-Commerce Host • Community Project
+				</p>
+			</footer>
 		</div>
 	);
 };

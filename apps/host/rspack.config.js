@@ -34,9 +34,13 @@ const baseFederationConfig = {
 	filename: 'remoteEntry.js',
 	exposes: {},
 	shared: {
-		...deps,
 		react: { singleton: true, eager: true, requiredVersion: deps.react },
 		'react-dom': { singleton: true, eager: true, requiredVersion: deps['react-dom'] },
+		'react-router-dom': {
+			singleton: true,
+			eager: true,
+			requiredVersion: deps['react-router-dom'],
+		},
 		'@repo/ecommerce-core': {
 			singleton: true,
 			eager: true,
@@ -46,11 +50,6 @@ const baseFederationConfig = {
 		'@repo/styles': { singleton: true, eager: true, requiredVersion: false },
 		'@repo/utils': { singleton: true, eager: true, requiredVersion: false },
 		zustand: { singleton: true, eager: true, requiredVersion: deps.zustand },
-		'react-router-dom': {
-			singleton: true,
-			eager: true,
-			requiredVersion: deps['react-router-dom'],
-		},
 	},
 };
 

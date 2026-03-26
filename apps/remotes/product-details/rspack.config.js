@@ -31,7 +31,6 @@ const baseFederationConfig = {
 		'./ProductDetailsWidget': './ProductDetailsWidget.tsx',
 	},
 	shared: {
-		...deps,
 		react: { singleton: true, eager: true, requiredVersion: deps.react },
 		'react-dom': { singleton: true, eager: true, requiredVersion: deps['react-dom'] },
 		'@repo/ecommerce-core': {

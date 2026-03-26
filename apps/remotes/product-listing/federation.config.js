@@ -15,10 +15,10 @@ const devRemotes = enableDevRemoteFallback
 		)
 	: localRemotes;
 
-const allowedOrigins =
-	process.env.ALLOWED_ORIGINS.split(',')
-		.filter(Boolean)
-		.map((url) => new URL(url).origin) || [];
+const allowedOrigins = (process.env.ALLOWED_ORIGINS ?? '')
+	.split(',')
+	.filter(Boolean)
+	.map((url) => new URL(url).origin);
 
 const config = {
 	development: {
