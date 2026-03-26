@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"exports": {
-		"./global.css": "./src/global.css"
+		"./global.css": "./src/global.css",
+		"./tokens": "./src/tokens.mjs"
 	}
 }
