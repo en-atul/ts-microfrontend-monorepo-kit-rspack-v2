@@ -2,7 +2,7 @@
 	"private": true,
 	"name": "micro-frontend-monorepo",
 	"version": "1.0.0",
-	"description": "A modern monorepo boilerplate for building scalable micro-frontend applications from scratch — powered by Webpack 5 Module Federation, pnpm Workspaces, and Lerna.",
+	"description": "A modern monorepo boilerplate for building scalable micro-frontend applications from scratch — powered by Rspack Module Federation, pnpm Workspaces, and Lerna.",
 	"scripts": {
 		"start:host": "pnpm --filter @repo/host-app dev",
 		"start:product-listing": "pnpm --filter @repo/product-listing-app dev",
@@ -21,6 +21,7 @@
 	"keywords": [
 		"monorepo",
 		"micro frontend",
+		"rspack",
 		"webpack",
 		"module federation",
 		"pnpm workspaces",
@@ -29,7 +30,7 @@
 		"typescript"
 	],
 	"author": "atul",
-	"license": "MIT",
+	"license": "UNLICENSED",
 	"devDependencies": {
 		"@repo/dev-cli": "workspace:*",
 		"blessed": "0.1.81",
