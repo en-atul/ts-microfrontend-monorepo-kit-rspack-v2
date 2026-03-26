@@ -6,6 +6,10 @@ A production-ready monorepo for building scalable microfrontends with independen
 state, and a router-driven host shell. Built from scratch for full control over Module Federation,
 runtime sharing, and deployment setup.
 
+<video src="assets/mfe-preview.mp4" controls muted playsinline width="100%"></video>
+
+> All routes in this app is federated one
+
 ## Table of Contents
 
 - [Overview](#-overview)
