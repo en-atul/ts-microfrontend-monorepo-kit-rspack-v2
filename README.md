@@ -245,6 +245,20 @@ pnpm dev-cli lint --fix
 - Runtime integration of components
 - Version control of shared modules
 
+### Dev fallback + Environment Status panel
+
+In development, the host can be configured to load **local remotes first** and automatically
+**fallback to deployed `remoteEntry.js`** when a local dev server is down, blocked (CORS/403), or
+misconfigured. A small **Environment Status** widget (bottom-right) opens a panel showing which
+remotes loaded from **LOCAL** vs **FALLBACK**, plus diagnostics.
+
+![Environment Status panel overview](assets/mfe-banner.webp)
+
+Details (how fallback works, how to control it via env vars, and the `__MF_REMOTE_RESOLUTION__`
+contract):
+
+- [`docs/module-federation-fallback-and-environment-status.md`](docs/module-federation-fallback-and-environment-status.md)
+
 ## 🧠 Data Management
 
 The project uses a hybrid pattern:
