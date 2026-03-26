@@ -8,7 +8,7 @@ runtime sharing, and deployment setup.
 
 [Download / Watch Video](https://github.com/user-attachments/assets/5428e6e2-ebd5-4747-8dbd-9b2497af07f6)
 
-> All routes in this app is federated one
+> All routes in this application are federated.
 
 ## Table of Contents
 
