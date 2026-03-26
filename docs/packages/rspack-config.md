@@ -32,3 +32,11 @@ import { parseArgs } from '@repo/rspack-config/utils';
 - Keep only shared build behavior here.
 - App-specific federation names/remotes/exposes stay in each app config.
 - If this package changes and command resolution breaks, rebuild/install before running app builds.
+
+## Module Federation dev fallback
+
+For how **local-first remotes** and **deployed `remoteEntry.js` fallback** work at runtime, which
+**environment variables** control them, and how the host **Environment Status** UI consumes
+`__MF_REMOTE_RESOLUTION__`, see:
+
+- [`module-federation-fallback-and-environment-status.md`](../module-federation-fallback-and-environment-status.md)

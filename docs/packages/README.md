@@ -4,6 +4,8 @@ This folder contains package-level documentation for everything under `packages/
 
 ## Index
 
+- [Module Federation fallback & Environment Status UI](../module-federation-fallback-and-environment-status.md):
+  dev remote fallback, env controls, host status panel
 - [`dev-cli.md`](./dev-cli.md): `@repo/dev-cli`
 - [`ecommerce-core.md`](./ecommerce-core.md): `@repo/ecommerce-core`
 - [`eslint-config.md`](./eslint-config.md): `@repo/eslint-config`
