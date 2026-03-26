@@ -6,9 +6,7 @@ A production-ready monorepo for building scalable microfrontends with independen
 state, and a router-driven host shell. Built from scratch for full control over Module Federation,
 runtime sharing, and deployment setup.
 
-<video src="https://github.com/en-atul/rspack-microfrontend-v2/blob/main/assets/mfe-preview.mov" controls muted playsinline width="100%"></video>
-
-[Open preview video](https://raw.githubusercontent.com/en-atul/rspack-microfrontend-v2/main/assets/mfe-preview.mov)
+[Download / Watch Video](https://github.com/en-atul/rspack-microfrontend-v2/blob/main/assets/mfe-preview.mov)
 
 > All routes in this app is federated one
 
